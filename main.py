@@ -13,6 +13,7 @@ symbolsToBuy = []
 # Iterate 
 for symbol, society in zip(symbols, societies):
 
+    print(f'Analizzo {society}')
     df = yf.download(symbols[0], period='1y')
     func.add_indicators(df)
     
@@ -25,12 +26,12 @@ for symbol, society in zip(symbols, societies):
         }
         symbolsToBuy.append(data)
 
-    if (func.check_entry_ioInvesto(symbol, df.tail(1))):
+    if (func.check_entry_ioInvesto(symbol, df.tail(1)) is not None):
         data = {
             'Simbolo': symbol,
             'Societa': society,
             'Prezzo_ordine': df['Close'],
-            'Strategia': 2 # Ray 
+            'Strategia': 2 # ioInvesto 
         }
         symbolsToBuy.append(data)
 
