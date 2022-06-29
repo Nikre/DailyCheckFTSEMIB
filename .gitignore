@@ -2,3 +2,4 @@ __pycache__/
 .ipynb_checkpoints/
 symbolsToBuy.json
 symbolsToBuyExtented.json
+simple_routing/
