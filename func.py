@@ -17,8 +17,8 @@ rsi = 'RSI 2'
 def add_indicators(df):
     df[ema20high] = ta.trend.EMAIndicator(df['High'], window=20).ema_indicator() 
     df[ema20low] = ta.trend.EMAIndicator(df['Low'], window=20).ema_indicator() 
-    df[ema144] = ta.trend.EMAIndicator(df['Close'], window=144).ema_indicator() 
-    df[ema200] = ta.trend.EMAIndicator(df['Close'], window=200).ema_indicator() 
+    df[ema144] = ta.trend.EMAIndicator(df['Close'], window=144).ema_indicator()
+    df[ema200] = ta.trend.EMAIndicator(df['Close'], window=200).ema_indicator()
     df[lbb] = ta.volatility.BollingerBands(df['Close'], window_dev=2.5).bollinger_lband()
     df[rsi] = ta.momentum.RSIIndicator(df['Close'], window=2).rsi()
 

@@ -33,7 +33,9 @@ def main():
     for symbol, society in zip(symbols, societies):
 
         print(f'Analizzo {society}')
-        df = yf.download(symbols[0], period='1y')
+        df = yf.download(symbol, period='1y')
+        if (len(df.index) < 200): # necessario perchè alcuni titoli possono avere pochi dati
+            continue
         func.add_indicators(df)
         
         if (extented):
