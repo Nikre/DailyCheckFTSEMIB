@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import symbols from '../../../symbolsToBuyExtented.json';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +12,6 @@ export class AppComponent implements OnInit {
     console.log('OnInit')
   }
 
-  constructor() {
-    debugger
-    this.symbols = symbols
-    console.log(symbols)
-  }
+  constructor() { }
 
 }

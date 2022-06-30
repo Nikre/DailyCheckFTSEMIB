@@ -1,0 +1,24 @@
+<div class="container">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Società</th>
+                <th scope="col">Open</th>
+                <th scope="col">Close</th>
+                <th scope="col">EMA 200</th>
+                <th scope="col">Lower Bollinger band</th>
+                <th scope="col">Strategia</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let symbol of symbols">
+                <th>{{ symbol.societa }}</th>
+                <td>{{ symbol.apertura | number : '1.3-3'}}</td>
+                <td>{{ symbol.chiusura | number : '1.3-3' }}</td>
+                <td>{{ symbol.ema200 | number : '1.3-3'}}</td>
+                <td>{{ symbol.lbb | number : '1.3-3'}}</td>
+                <td>{{ symbol.strategia }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
