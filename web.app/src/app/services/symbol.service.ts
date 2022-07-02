@@ -16,7 +16,10 @@ export class SymbolService {
     })
    }
 
-   getSymbols() {
+   getSymbol(society?: string) {
+    if (society) {
+      return this.symbols.filter(x => x.societa.toLowerCase().includes(society.toLowerCase()))
+    }
     return this.symbols
    }
 

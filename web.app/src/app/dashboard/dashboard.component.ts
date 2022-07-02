@@ -10,12 +10,16 @@ import { SymbolService } from '../services/symbol.service';
 })
 export class DashboardComponent implements OnInit {
   symbols: SymbolToShow[]
+  searchedSymbol: string = ''
 
   constructor(private symbolService: SymbolService) {
-    this.symbols = symbolService.getSymbols()
-  }
+    this.symbols = this.symbolService.getSymbol()
+  } 
 
   ngOnInit(): void {
   }
 
+  searching() {
+    this.symbols = this.symbolService.getSymbol(this.searchedSymbol)
+  }
 }
