@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SymbolToShow } from '../models/symbol-to-show';
 import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
+import { SymbolService } from '../services/symbol.service';
 
 @Component({
   selector: 'dashboard',
@@ -8,12 +9,10 @@ import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  symbols: SymbolToShow[] = [];
+  symbols: SymbolToShow[]
 
-  constructor() {
-    symbolsFromJson.forEach(x => {  
-      this.symbols.push(new SymbolToShow(x))
-    })
+  constructor(private symbolService: SymbolService) {
+    this.symbols = symbolService.getSymbols()
   }
 
   ngOnInit(): void {
