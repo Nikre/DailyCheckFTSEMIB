@@ -13,6 +13,7 @@ import { SymbolService } from '../services/symbol.service';
 export class DetailComponent implements OnInit {
 
   selectedSymbol: string = '';
+  selectedStrategy: number = 0;
   // dataForCandelstick: number[];
   symbol: SymbolToShow;
 
@@ -39,19 +40,46 @@ export class DetailComponent implements OnInit {
       xAxis: {
         data: this.symbol.xAxis
       },
-      yAxis: {},
+      yAxis: {
+        scale: true
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        },
+      },
       series: [
         {
           type: 'candlestick',
-          data: [
-            [20, 34, 10, 38],
-            [40, 35, 30, 50],
-            [31, 38, 33, 44],
-            [38, 15, 5, 42],
-            [38, 15, 4, 42],
-            [38, 15, 4, 42],
-            [38, 15, 4, 42]
-          ]
+          data: this.symbol.yData
+        },
+        {
+          name: 'EMA 200',
+          type: 'line',
+          data: this.symbol.ema200Series,
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5
+          }
+        },
+        {
+          name: 'High Bollinger band',
+          type: 'line',
+          data: this.symbol.hbbSeries,
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5
+          }
+        },
+        {
+          name: 'Lower Bollinger band',
+          type: 'line',
+          data: this.symbol.lbbSeries,
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5
+          }
         }
       ]
     };
@@ -60,7 +88,4 @@ export class DetailComponent implements OnInit {
 
   }
 
-  buildData(symbol: SymbolToShow) {
-    
-  }
 }

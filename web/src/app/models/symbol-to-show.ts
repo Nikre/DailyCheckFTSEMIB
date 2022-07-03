@@ -11,6 +11,10 @@ export class SymbolToShow {
     yAxisLow: number[];
     yAxisOpen: number[];
     yAxisClose: number[];
+    yData: [number[]];
+    ema200Series: number[];
+    hbbSeries: number[];
+    lbbSeries: number[];
     
     constructor(obj: any) {
         this.simbolo = obj.Simbolo;
@@ -27,6 +31,9 @@ export class SymbolToShow {
         this.yAxisLow = obj.yAxisLow;
         this.yAxisOpen = obj.yAxisOpen;
         this.yAxisClose = obj.yAxisClose;
-
+        this.yData = obj.yData;
+        this.ema200Series = obj.ema200Series;
+        this.hbbSeries = obj.hbbSeries;
+        this.lbbSeries = obj.lbbSeries;
     }
 }
