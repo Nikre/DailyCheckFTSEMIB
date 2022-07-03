@@ -23,4 +23,7 @@ export class SymbolService {
     return this.symbols
    }
 
+   getSymbolFromSymbol(symbol: string) {
+    return this.symbols.filter(x => x.simbolo == symbol)[0]
+   }
 }
