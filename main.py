@@ -1,4 +1,3 @@
-from pickle import TRUE
 import pandas as pd
 import yfinance as yf
 # import matplotlib.pyplot as plt 
