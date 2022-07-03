@@ -46,7 +46,12 @@ def main():
                 'Open': df.tail(1)['Open'].values[0],
                 'Close': df.tail(1)['Close'].values[0],
                 'EMA200': df.tail(1)[func.ema200].values[0],
-                'LowerBB': df.tail(1)[func.lbb].values[0]
+                'LowerBB': df.tail(1)[func.lbb].values[0],
+                'xAxis': list(map(lambda x: x.strftime("%d/%m"), df.tail(10).index.tolist())),
+                'yAxisHigh': df.tail(10)['High'].values.tolist(),
+                'yAxisLow': df.tail(10)['Low'].values.tolist(),
+                'yAxisOpen': df.tail(10)['Open'].values.tolist(),
+                'yAxisClose': df.tail(10)['Close'].values.tolist(),
             }
             symbolsToBuyExtended.append(data)
         
