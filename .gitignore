@@ -3,3 +3,4 @@ __pycache__/
 symbolsToBuy.json
 symbolsToBuyExtented.json
 simple_routing/
+.DS_store
