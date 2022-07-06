@@ -1,7 +1,8 @@
 export class SymbolToShow {
     simbolo: string;
     societa: string;
-    strategia: number;
+    strategie: {};
+    buyable: boolean;
     apertura: number;
     chiusura: number;
     ema200: number;
@@ -19,9 +20,10 @@ export class SymbolToShow {
     constructor(obj: any) {
         this.simbolo = obj.Simbolo;
         this.societa = obj.Societa;
-        this.strategia = obj.Strategia;
+        this.strategie = obj.Strategie;
         // TODO: aggiungere anche la strategia letterale
-
+        this.buyable = obj.DaComprare
+        debugger
         this.apertura = obj.Open;
         this.chiusura = obj.Close;
         this.ema200 = obj.EMA200;

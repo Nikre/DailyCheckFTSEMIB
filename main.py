@@ -36,8 +36,13 @@ def main():
         print(f'Analizzo {society}')
         df = yf.download(symbol, period='1y')
         if (len(df.index) < 200):  # necessario perchè alcuni titoli possono avere pochi dati
+            # TODO: aggiungere il simbolo con tutte le cose a null, e poi il FE si occupa di 
+            # evitare il click
             continue
         func.add_indicators(df)
+        
+        entryReyReno_bb = func.check_entry_rayReno_bb(symbol, df.tail(1))
+        entryIoInvesto = func.check_entry_ioInvesto(symbol, df.tail(1))
 
         if (extented):
             high = df.tail(10)['High'].values.tolist()
@@ -48,11 +53,16 @@ def main():
             data = {
                 'Simbolo': symbol,
                 'Societa': society,
-                'Strategia': 1,  # Ray
-                'Open': df.tail(1)['Open'].values[0],
-                'Close': df.tail(1)['Close'].values[0],
-                'EMA200': df.tail(1)[func.ema200].values[0],
-                'LowerBB': df.tail(1)[func.lbb].values[0],
+                'Strategie': {
+                    'ReyReno': 1 if (entryReyReno_bb is not None) else 0,
+                    'IoInvesto': 1 if (entryIoInvesto is not None) else 0
+                },
+                # Se il campo diventa troppo lungo, si fa una funzione
+                'DaComprare': (entryReyReno_bb is not None) or (entryIoInvesto is not None),
+                'Open': df.tail(1)['Open'].values[0].round(3),
+                'Close': df.tail(1)['Close'].values[0].round(3),
+                'EMA200': df.tail(1)[func.ema200].values[0].round(3),
+                'LowerBB': df.tail(1)[func.lbb].values[0].round(3),
                 'xAxis': list(map(lambda x: x.strftime("%d/%m"), df.tail(10).index.tolist())),
                 'yAxisHigh': high,
                 'yAxisLow': low,
@@ -61,11 +71,14 @@ def main():
                 'yData': [list(x) for x in zip(close, openData, low, high)],
                 'ema200Series': df.tail(10)[func.ema200].values.tolist(),
                 'hbbSeries': df.tail(10)[func.hbb].values.tolist(),
-                'lbbSeries': df.tail(10)[func.lbb].values.tolist()
+                'lbbSeries': df.tail(10)[func.lbb].values.tolist(),
+                'ema20High': df.tail(10)[func.ema20high].values.tolist(),
+                'ema20Low': df.tail(10)[func.ema20low].values.tolist(),
+                'ema144': df.tail(10)[func.ema144].values.tolist()
             }
             symbolsToBuyExtended.append(data)
 
-        if (func.check_entry_rayReno_bb(symbol, df.tail(1)) is not None):
+        if (entryReyReno_bb is not None):
             data = {
                 'Simbolo': symbol,
                 'Societa': society,
@@ -74,7 +87,7 @@ def main():
             }
             symbolsToBuy.append(data)
 
-        if (func.check_entry_ioInvesto(symbol, df.tail(1)) is not None):
+        if (entryIoInvesto is not None):
             data = {
                 'Simbolo': symbol,
                 'Societa': society,

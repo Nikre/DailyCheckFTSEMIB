@@ -22,4 +22,5 @@ export class DashboardComponent implements OnInit {
   searching() {
     this.symbols = this.symbolService.getSymbol(this.searchedSymbol)
   }
+
 }

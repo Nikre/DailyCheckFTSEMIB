@@ -25,22 +25,23 @@
         <thead>
             <tr>
                 <th scope="col">Società</th>
-                <th scope="col">Open</th>
-                <th scope="col">Close</th>
-                <th scope="col">EMA 200</th>
-                <th scope="col">Lower Bollinger band</th>
-                <th scope="col">Strategia</th>
+                <th class="text-center" scope="col">Open</th>
+                <th class="text-center" scope="col">Close</th>
+                <th class="text-center" scope="col">EMA 200</th>
+                <th class="text-center" scope="col">Lower Bollinger band</th>
+                <!-- <th scope="col">Strategia</th> -->
             </tr>
         </thead>
         <tbody>
             <tr routerLink="/detail" [queryParams]="{simbolo: symbol.simbolo}" routerLinkActive="active"
-                *ngFor="let symbol of symbols">
+            [ngClass]="{'table-success': symbol.buyable}"
+            *ngFor="let symbol of symbols">
                 <th>{{ symbol.societa }}</th>
-                <td>{{ symbol.apertura | number : '1.3-3'}}€</td>
-                <td>{{ symbol.chiusura | number : '1.3-3' }}€</td>
-                <td>{{ symbol.ema200 | number : '1.3-3'}}€</td>
-                <td>{{ symbol.lbb | number : '1.3-3'}}€</td>
-                <td>{{ symbol.strategia }}</td>
+                <td class="text-center">{{ symbol.apertura | number : '1.2-2'}}€</td>
+                <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
+                <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
+                <td class="text-center">{{ symbol.lbb | number : '1.2-2'}}€</td>
+                <!-- <td>{{ symbol.strategia }}</td> -->
             </tr>
         </tbody>
     </table>
