@@ -19,5 +19,32 @@
     </div>
 </nav>
 <div class="container">
-    <div id="main" style="width: 900px;height:550px;"></div>
+    <div id="main" style="width: 100%;height:550px;"></div>
+</div>
+
+
+<div class="container">
+    <h2 class="text-center">{{ symbol.societa }}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Società</th>
+                <th class="text-center" scope="col">Open</th>
+                <th class="text-center" scope="col">Close</th>
+                <th class="text-center" scope="col">EMA 200</th>
+                <th class="text-center" scope="col">Variazione %</th>
+                <!-- <th scope="col">Strategia</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>{{ symbol.societa }}</th>
+                <td class="text-center">{{ symbol.apertura | number : '1.2-2'}}€</td>
+                <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
+                <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
+                <td class="text-center"> ciao </td>
+                <!-- <td>{{ symbol.strategia }}</td> -->
+            </tr>
+        </tbody>
+    </table>
 </div>
