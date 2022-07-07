@@ -41,7 +41,8 @@
                 <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
                 <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
                 <td class="text-center positiveVariation" 
-                [ngClass]="{'negativeVariation': dailyVariation(symbol) < 0}">{{ dailyVariation(symbol) | number : '1.2-2'}}€</td>
+                [ngClass]="{'negativeVariation': dailyVariation(symbol) < 0, 'positiveVariation': dailyVariation(symbol) >= 0}">
+                {{ dailyVariation(symbol) | number : '1.2-2'}}€</td>
                 <!-- <td>{{ symbol.strategia }}</td> -->
             </tr>
         </tbody>
