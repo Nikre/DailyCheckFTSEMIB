@@ -23,4 +23,7 @@ export class DashboardComponent implements OnInit {
     this.symbols = this.symbolService.getSymbol(this.searchedSymbol)
   }
 
+  dailyVariation(symbol: SymbolToShow) {
+    return ((symbol.chiusura - symbol.apertura) / symbol.apertura) * 100
+  }
 }
