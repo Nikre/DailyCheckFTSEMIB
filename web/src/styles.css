@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+.buyable-background {
+    background-color: #E2EB98;
+}
+
+.negative-variation {
+    color: #C03221 !important;
+}
+
+.positive-variation {
+    color: #199526 !important;
+}

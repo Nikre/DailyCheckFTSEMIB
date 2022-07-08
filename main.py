@@ -30,6 +30,8 @@ def main():
 
     symbolsToBuy = []
     symbolsToBuyExtended = []
+    lastSamples = 30
+
     # Iterate
     for symbol, society in zip(symbols, societies):
 
@@ -43,12 +45,13 @@ def main():
         
         entryReyReno_bb = func.check_entry_rayReno_bb(symbol, df.tail(1))
         entryIoInvesto = func.check_entry_ioInvesto(symbol, df.tail(1))
+        df = df.round(3) # La round() non è inplace
 
         if (extented):
-            high = df.tail(10)['High'].values.tolist()
-            low = df.tail(10)['Low'].values.tolist()
-            openData = df.tail(10)['Open'].values.tolist()
-            close = df.tail(10)['Close'].values.tolist()
+            high = df.tail(lastSamples)['High'].values.tolist()
+            low = df.tail(lastSamples)['Low'].values.tolist()
+            openData = df.tail(lastSamples)['Open'].values.tolist()
+            close = df.tail(lastSamples)['Close'].values.tolist()
 
             data = {
                 'Simbolo': symbol,
@@ -59,22 +62,22 @@ def main():
                 },
                 # Se il campo diventa troppo lungo, si fa una funzione
                 'DaComprare': (entryReyReno_bb is not None) or (entryIoInvesto is not None),
-                'Open': df.tail(1)['Open'].values[0].round(3),
-                'Close': df.tail(1)['Close'].values[0].round(3),
-                'EMA200': df.tail(1)[func.ema200].values[0].round(3),
-                'LowerBB': df.tail(1)[func.lbb].values[0].round(3),
-                'xAxis': list(map(lambda x: x.strftime("%d/%m"), df.tail(10).index.tolist())),
+                'Open': df.tail(1)['Open'].values[0],
+                'Close': df.tail(1)['Close'].values[0],
+                'EMA200': df.tail(1)[func.ema200].values[0],
+                'LowerBB': df.tail(1)[func.lbb].values[0],
+                'xAxis': list(map(lambda x: x.strftime("%d/%m"), df.tail(lastSamples).index.tolist())),
                 'yAxisHigh': high,
                 'yAxisLow': low,
                 'yAxisOpen': openData,
                 'yAxisClose': close,
                 'yData': [list(x) for x in zip(close, openData, low, high)],
-                'ema200Series': df.tail(10)[func.ema200].values.tolist(),
-                'hbbSeries': df.tail(10)[func.hbb].values.tolist(),
-                'lbbSeries': df.tail(10)[func.lbb].values.tolist(),
-                'ema20High': df.tail(10)[func.ema20high].values.tolist(),
-                'ema20Low': df.tail(10)[func.ema20low].values.tolist(),
-                'ema144': df.tail(10)[func.ema144].values.tolist()
+                'ema200Series': df.tail(lastSamples)[func.ema200].values.tolist(),
+                'hbbSeries': df.tail(lastSamples)[func.hbb].values.tolist(),
+                'lbbSeries': df.tail(lastSamples)[func.lbb].values.tolist(),
+                'ema20High': df.tail(lastSamples)[func.ema20high].values.tolist(),
+                'ema20Low': df.tail(lastSamples)[func.ema20low].values.tolist(),
+                'ema144': df.tail(lastSamples)[func.ema144].values.tolist()
             }
             symbolsToBuyExtended.append(data)
 

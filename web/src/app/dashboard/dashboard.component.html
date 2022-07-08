@@ -38,9 +38,9 @@
                 <td class="text-center">{{ symbol.apertura | number : '1.2-2'}}€</td>
                 <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
                 <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
-                <td class="text-center" [ngClass]="{'negative-variation': dailyVariation(symbol) < 0, 
-                    'positive-variation': dailyVariation(symbol) >= 0}">
-                    {{ dailyVariation(symbol) | number : '1.2-2'}}€</td>
+                <td class="text-center" [ngClass]="{'negative-variation': symbol.variazione < 0, 
+                    'positive-variation': symbol.variazione >= 0}">
+                    {{ symbol.variazione | number : '1.2-2'}}€</td>
                 <!-- <td>{{ symbol.strategia }}</td> -->
             </tr>
         </tbody>
