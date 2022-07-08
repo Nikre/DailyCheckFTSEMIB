@@ -1,7 +1,11 @@
+.buyable-backgroung {
+    background-color: #E2EB98;
+}
+
 .negativeVariation {
-    color: brown !important;
+    color: #C03221 !important;
 }
 
 .positiveVariation {
-    color: chartreuse !important;
+    color: #199526 !important;
 }

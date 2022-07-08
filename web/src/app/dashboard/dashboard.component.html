@@ -12,9 +12,8 @@
                 </li>
             </ul>
             <form class="d-flex">
-                <input class="form-control me-2" type="search" [(ngModel)]="searchedSymbol" 
-                    placeholder="Search" aria-label="Search" [ngModelOptions]="{standalone: true}"
-                    (input)="searching()">
+                <input class="form-control me-2" type="search" [(ngModel)]="searchedSymbol" placeholder="Search"
+                    aria-label="Search" [ngModelOptions]="{standalone: true}" (input)="searching()">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -34,15 +33,14 @@
         </thead>
         <tbody>
             <tr routerLink="/detail" [queryParams]="{simbolo: symbol.simbolo}" routerLinkActive="active"
-            [ngClass]="{'table-success': symbol.buyable}"
-            *ngFor="let symbol of symbols">
+                [ngClass]="{'buyable-background': symbol.buyable}" *ngFor="let symbol of symbols">
                 <th>{{ symbol.societa }}</th>
                 <td class="text-center">{{ symbol.apertura | number : '1.2-2'}}€</td>
                 <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
                 <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
-                <td class="text-center positiveVariation" 
-                [ngClass]="{'negativeVariation': dailyVariation(symbol) < 0, 'positiveVariation': dailyVariation(symbol) >= 0}">
-                {{ dailyVariation(symbol) | number : '1.2-2'}}€</td>
+                <td class="text-center positiveVariation" [ngClass]="{'negative-variation': dailyVariation(symbol) < 0, 
+                    'positive-variation': dailyVariation(symbol) >= 0}">
+                    {{ dailyVariation(symbol) | number : '1.2-2'}}€</td>
                 <!-- <td>{{ symbol.strategia }}</td> -->
             </tr>
         </tbody>
