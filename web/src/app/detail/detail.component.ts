@@ -4,6 +4,7 @@ import * as echarts from 'echarts';
 import { EChartsOption } from 'echarts';
 import { SymbolToShow } from '../models/symbol-to-show';
 import { SymbolService } from '../services/symbol.service';
+import { TooltipComponentFormatterCallbackParams } from 'echarts';
 
 @Component({
   selector: 'detail',
@@ -45,12 +46,13 @@ export class DetailComponent implements OnInit {
         },
       },
       legend: {
-        data: ['EMA 200'],
+        data: [this.symbol.simbolo, 'EMA 200'],
       },
       series: [
         {
+          name: this.symbol.simbolo,
           type: 'candlestick',
-          data: this.symbol.yData,
+          data: this.symbol.yData
         },
         {
           name: 'EMA 200',
@@ -87,10 +89,11 @@ export class DetailComponent implements OnInit {
             },
           },
           legend: {
-            data: ['EMA 200', 'High Bollinger band', 'Lower Bollinger band'],
+            data: [this.symbol.simbolo, 'EMA 200', 'High Bollinger band', 'Lower Bollinger band'],
           },
           series: [
             {
+              name: this.symbol.simbolo,
               type: 'candlestick',
               data: this.symbol.yData,
             },
@@ -139,10 +142,11 @@ export class DetailComponent implements OnInit {
             },
           },
           legend: {
-            data: ['EMA 20 Minimi', 'EMA 20 Massimi', 'EMA 144'],
+            data: [this.symbol.simbolo, 'EMA 20 Minimi', 'EMA 20 Massimi', 'EMA 144'],
           },
           series: [
             {
+              name: this.symbol.simbolo,
               type: 'candlestick',
               data: this.symbol.yData,
             },
@@ -191,10 +195,11 @@ export class DetailComponent implements OnInit {
             },
           },
           legend: {
-            data: ['EMA 200'],
+            data: [this.symbol.simbolo, 'EMA 200'],
           },
           series: [
             {
+              name: this.symbol.simbolo,
               type: 'candlestick',
               data: this.symbol.yData,
             },
