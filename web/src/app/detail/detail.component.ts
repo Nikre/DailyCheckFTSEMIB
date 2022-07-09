@@ -15,6 +15,7 @@ import { ChartService } from '../services/chart.service';
 export class DetailComponent implements OnInit {
   selectedSymbol: string = '';
   selectedStrategy?: number;
+  selectedStrategyDesc: string = '';
   symbol: SymbolToShow;
 
   constructor(
@@ -42,12 +43,15 @@ export class DetailComponent implements OnInit {
     switch (this.selectedStrategy) {
       case 1:
         myChart.setOption(this.chartService.getBollingerBandChartOption(this.symbol), true);
+        this.selectedStrategyDesc = "bollinger"
         break;
       case 2:
         myChart.setOption(this.chartService.getIoInvestoChartOption(this.symbol), true);
+        this.selectedStrategyDesc = "La chiusura deve essere maggiore della <b>media a 144 periodi</b>"
         break;
       default:
         myChart.setOption(this.chartService.getDefaultChartOption(this.symbol), true)
+        this.selectedStrategyDesc = ""
         break;
     }
   }
