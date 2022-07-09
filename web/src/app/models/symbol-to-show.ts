@@ -1,7 +1,7 @@
 export class SymbolToShow {
     simbolo: string;
     societa: string;
-    strategie: {};
+    strategie: any;
     buyable: boolean;
     apertura: number;
     chiusura: number;

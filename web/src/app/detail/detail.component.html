@@ -32,8 +32,8 @@
     </div>
     <div class="description" [innerHTML]="selectedStrategyDesc"></div>
     <div class="mt-4" id="main" style="width: 100%;height:550px;"></div>
-    <h3 class="text-center" >N.B: il tooltip presenta i valori di apertura e chiusura invertiti!</h3>
-    <div class="row text-center">
+    <h3 class="text-center mb-3" >N.B: il tooltip presenta i valori di apertura e chiusura invertiti!</h3>
+    <div class="row text-center mb-2">
         <div class="col">
             <span style="font-weight:bold;">Apertura: </span> {{ symbol.apertura }}€
         </div>
@@ -46,4 +46,23 @@
             'positive-variation': symbol.variazione >= 0}">{{ symbol.variazione | number : '1.2-2'}}%</span>
         </div>
     </div>
+    <div *ngIf="selectedStrategy == 2">
+        <div class="row text-center">
+            <div class="col">
+                <span style="font-weight:bold;">EMA 20 Massimi: </span>{{ symbol.ema20High[symbol.ema20High.length - 1] }}€
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">EMA 20 minimi: </span>{{ symbol.ema20Low[symbol.ema20Low.length - 1] }}€
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">EMA 144: </span>{{ symbol.ema144[symbol.ema144.length - 1] }}€
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">Posizione: </span>
+                <span *ngIf="symbol.strategie['IoInvesto'] == 1" class="positive-variation">Buy/Hold</span>
+                <span *ngIf="symbol.strategie['IoInvesto'] == 0" class="negative-variation">Sell</span>
+            </div>
+        </div>
+    </div>
+    <div style="margin-bottom: 100px;"></div>
 </div>

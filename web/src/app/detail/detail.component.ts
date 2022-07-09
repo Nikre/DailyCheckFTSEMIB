@@ -21,7 +21,7 @@ export class DetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private symbolService: SymbolService,
-    private chartService: ChartService,
+    private chartService: ChartService
   ) {
     this.route.queryParams.subscribe((params) => {
       this.selectedSymbol = params['simbolo'];
@@ -33,25 +33,42 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
     var chartDom = document.getElementById('main')!;
     var myChart = echarts.init(chartDom);
-    myChart.setOption(this.chartService.getDefaultChartOption(this.symbol), true);
+    myChart.setOption(
+      this.chartService.getDefaultChartOption(this.symbol),
+      true
+    );
   }
 
   onStrategySelected() {
     var chartDom = document.getElementById('main')!;
     var myChart = echarts.init(chartDom);
-    
+
     switch (this.selectedStrategy) {
       case 1:
-        myChart.setOption(this.chartService.getBollingerBandChartOption(this.symbol), true);
-        this.selectedStrategyDesc = "bollinger"
+        myChart.setOption(
+          this.chartService.getBollingerBandChartOption(this.symbol),
+          true
+        );
+        this.selectedStrategyDesc = 'bollinger';
         break;
       case 2:
-        myChart.setOption(this.chartService.getIoInvestoChartOption(this.symbol), true);
-        this.selectedStrategyDesc = "La chiusura deve essere maggiore della <b>media a 144 periodi</b>"
+        myChart.setOption(
+          this.chartService.getIoInvestoChartOption(this.symbol),
+          true
+        );
+        this.selectedStrategyDesc = `<b>Apertura posizione long:</b> per aprire una posizione, 
+        il prezzo di chiusura deve essere maggiore della <b>media esponenziale a 144 periodi</b>, 
+        della <b>media esponenziale</b> calcolata su <b> 20 periodi dei massimi</b> e dei <b>minimi</b>.
+        <br><br>
+        <b>Chiusura posizione long</b>: la posizione viene chiusa non appena il prezzo di chiusura a
+        è <b>minore</b> della <b>EMA dei minimi dei 20 periodi</b>.`;
         break;
       default:
-        myChart.setOption(this.chartService.getDefaultChartOption(this.symbol), true)
-        this.selectedStrategyDesc = ""
+        myChart.setOption(
+          this.chartService.getDefaultChartOption(this.symbol),
+          true
+        );
+        this.selectedStrategyDesc = '';
         break;
     }
   }
