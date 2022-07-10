@@ -1,5 +1,10 @@
-.description {
+.description { 
     width: 50%;
     margin: auto;
     text-align: justify;
+}
+
+.table-detail {
+    width: 50%;
+    margin: auto;
 }

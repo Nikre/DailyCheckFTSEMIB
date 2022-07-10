@@ -20,13 +20,12 @@ export class SymbolToShow {
     rsi: number[];
     ema20High: number[];
     ema20Low: number[];
-    ema144: number[];
+    ema144Series: number[];
     
     constructor(obj: any) {
         this.simbolo = obj.Simbolo;
         this.societa = obj.Societa;
         this.strategie = obj.Strategie;
-        // TODO: aggiungere anche la strategia letterale
         this.buyable = obj.DaComprare
         this.apertura = obj.Open;
         this.chiusura = obj.Close;
@@ -45,6 +44,6 @@ export class SymbolToShow {
         this.rsi = obj.rsi;
         this.ema20High = obj.ema20High;
         this.ema20Low = obj.ema20Low;
-        this.ema144 = obj.ema144;
+        this.ema144Series = obj.ema144Series;
     }
 }

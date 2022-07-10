@@ -78,7 +78,7 @@ def main():
                 'rsi': df.tail(lastSamples)[func.rsi].values.tolist(),
                 'ema20High': df.tail(lastSamples)[func.ema20high].values.tolist(),
                 'ema20Low': df.tail(lastSamples)[func.ema20low].values.tolist(),
-                'ema144': df.tail(lastSamples)[func.ema144].values.tolist()
+                'ema144Series': df.tail(lastSamples)[func.ema144].values.tolist()
             }
             symbolsToBuyExtended.append(data)
 

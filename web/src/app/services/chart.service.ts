@@ -88,7 +88,7 @@ export class ChartService {
         {
           name: 'EMA 144',
           type: 'line',
-          data: symbol.ema144,
+          data: symbol.ema144Series,
           smooth: true,
           lineStyle: {
             opacity: 0.5,
