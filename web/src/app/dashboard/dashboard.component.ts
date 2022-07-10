@@ -23,4 +23,15 @@ export class DashboardComponent implements OnInit {
     this.symbols = this.symbolService.getSymbol(this.searchedSymbol)
   }
 
+  getStrategiesFromSymbol(symbol: SymbolToShow) {
+    var strategie = []
+    if (symbol.strategie['ReyReno'] == 1) {
+      strategie.push('RayReno')
+    }
+    if (symbol.strategie['IoInvesto'] == 1) {
+      strategie.push('IoInvesto')
+    }
+
+    return strategie.join(', ')
+  }
 }

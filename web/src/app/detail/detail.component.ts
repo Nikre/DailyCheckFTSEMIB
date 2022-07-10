@@ -27,7 +27,6 @@ export class DetailComponent implements OnInit {
       this.selectedSymbol = params['simbolo'];
     });
     this.symbol = this.symbolService.getSymbolFromSymbol(this.selectedSymbol);
-    // this.dataForCandelstick = this.buildData(this.symbol);
   }
 
   ngOnInit(): void {

@@ -28,6 +28,7 @@
                 <th class="text-center" scope="col">Close</th>
                 <th class="text-center" scope="col">EMA 200</th>
                 <th class="text-center" scope="col">Variazione %</th>
+                <th class="text-center" scope="col">Strategia</th>
                 <!-- <th scope="col">Strategia</th> -->
             </tr>
         </thead>
@@ -41,7 +42,7 @@
                 <td class="text-center" [ngClass]="{'negative-variation': symbol.variazione < 0, 
                     'positive-variation': symbol.variazione >= 0}">
                     {{ symbol.variazione | number : '1.2-2'}}€</td>
-                <!-- <td>{{ symbol.strategia }}</td> -->
+                <td>{{ getStrategiesFromSymbol(symbol) }}</td>
             </tr>
         </tbody>
     </table>
