@@ -75,6 +75,7 @@ def main():
                 'ema200Series': df.tail(lastSamples)[func.ema200].values.tolist(),
                 'hbbSeries': df.tail(lastSamples)[func.hbb].values.tolist(),
                 'lbbSeries': df.tail(lastSamples)[func.lbb].values.tolist(),
+                'rsi': df.tail(lastSamples)[func.rsi].values.tolist(),
                 'ema20High': df.tail(lastSamples)[func.ema20high].values.tolist(),
                 'ema20Low': df.tail(lastSamples)[func.ema20low].values.tolist(),
                 'ema144': df.tail(lastSamples)[func.ema144].values.tolist()

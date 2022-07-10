@@ -46,6 +46,26 @@
             'positive-variation': symbol.variazione >= 0}">{{ symbol.variazione | number : '1.2-2'}}%</span>
         </div>
     </div>
+    <div *ngIf="selectedStrategy == 1">
+        <div class="row text-center">
+            <div class="col">
+                <span style="font-weight:bold;">EMA 200: </span>{{ symbol.ema20High[symbol.ema20High.length - 1] | number : '1.2-2' }}€
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">Banda di Bollinger inferiore: </span>{{ symbol.lbbSeries[symbol.lbbSeries.length - 1] | number : '1.2-2' }}€
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">RSI: </span>
+                <span *ngIf="symbol.rsi[symbol.rsi.length - 1] >= 50" class="positive-variation">{{ symbol.rsi[symbol.rsi.length - 1] }}</span>
+                <span *ngIf="symbol.rsi[symbol.rsi.length - 1] < 0" class="negative-variation">{{ symbol.rsi[symbol.rsi.length - 1] }}</span>
+            </div>
+            <div class="col">
+                <span style="font-weight:bold;">Posizione: </span>
+                <span *ngIf="symbol.strategie['ReyReno'] == 1" class="positive-variation">Buy/Hold</span>
+                <span *ngIf="symbol.strategie['ReyReno'] == 0" class="negative-variation">Sell</span>
+            </div>
+        </div>
+    </div>
     <div *ngIf="selectedStrategy == 2">
         <div class="row text-center">
             <div class="col">

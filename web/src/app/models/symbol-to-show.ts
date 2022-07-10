@@ -17,6 +17,7 @@ export class SymbolToShow {
     ema200Series: number[];
     hbbSeries: number[];
     lbbSeries: number[];
+    rsi: number[];
     ema20High: number[];
     ema20Low: number[];
     ema144: number[];
@@ -41,6 +42,7 @@ export class SymbolToShow {
         this.ema200Series = obj.ema200Series;
         this.hbbSeries = obj.hbbSeries;
         this.lbbSeries = obj.lbbSeries;
+        this.rsi = obj.rsi;
         this.ema20High = obj.ema20High;
         this.ema20Low = obj.ema20Low;
         this.ema144 = obj.ema144;

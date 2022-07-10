@@ -96,17 +96,59 @@ export class ChartService {
         },
       ],
     };
-    return option
+    return option;
   }
 
   getBollingerBandChartOption(symbol: SymbolToShow) {
     var option = {
-      xAxis: {
-        data: symbol.xAxis,
-      },
-      yAxis: {
-        scale: true,
-      },
+      grid: [
+        {
+          left: '10%',
+          right: '10%',
+          bottom: 200,
+        },
+        {
+          left: '10%',
+          right: '10%',
+          height: 80,
+          bottom: 80,
+        },
+      ],
+      xAxis: [
+        {
+          data: symbol.xAxis,
+          boundaryGap: false,
+          axisLine: { onZero: false },
+          splitLine: { show: false },
+          axisLabel: { show: false },
+        },
+        {
+          data: symbol.xAxis,
+          gridIndex: 1,
+          boundaryGap: false,
+          axisLine: { onZero: false },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: true },
+        },
+      ],
+      yAxis: [
+        {
+          scale: true,
+          splitArea: {
+            show: true,
+          },
+        },
+        {
+          scale: true,
+          gridIndex: 1,
+          splitNumber: 2,
+          axisLabel: { show: true },
+          axisLine: { show: true },
+          axisTick: { show: true },
+          splitLine: { show: true },
+        },
+      ],
       tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -114,7 +156,13 @@ export class ChartService {
         },
       },
       legend: {
-        data: [symbol.simbolo, 'EMA 200', 'High Bollinger band', 'Lower Bollinger band'],
+        data: [
+          symbol.simbolo,
+          'EMA 200',
+          'High Bollinger band',
+          'Lower Bollinger band',
+          'RSI',
+        ],
       },
       series: [
         {
@@ -149,8 +197,19 @@ export class ChartService {
             opacity: 0.5,
           },
         },
+        {
+          name: 'RSI',
+          type: 'line',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: symbol.rsi,
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
       ],
-    }
-    return option
+    };
+    return option;
   }
 }

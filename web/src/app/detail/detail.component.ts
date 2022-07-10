@@ -45,17 +45,18 @@ export class DetailComponent implements OnInit {
 
     switch (this.selectedStrategy) {
       case 1:
-        myChart.setOption(
-          this.chartService.getBollingerBandChartOption(this.symbol),
-          true
-        );
-        this.selectedStrategyDesc = 'bollinger';
+        myChart.setOption(this.chartService.getBollingerBandChartOption(this.symbol), true);
+        this.selectedStrategyDesc = `<b>Apertura posizione long:</b> per aprire una posizione, 
+        il prezzo di chiusura deve essere minore del <b> valore della banda di Bollinger inferiore</b>.
+        A questo punto deve essere piazzato un ordine pari al 97% del valore attuale (<i><b>i.e:</b>
+        chiusura * 0.97</i>). 
+        <br><br>
+        <b>Chiusura posizione long</b>: la chiusura della posizione avviene appena l'oscillatore <b>RSI</b>
+        raggiunge il <b>valore maggiore o uguale di 50</b> oppure dopo che la posizione 
+        è rimasta aperta per <b>10 giorni</b>.`;
         break;
       case 2:
-        myChart.setOption(
-          this.chartService.getIoInvestoChartOption(this.symbol),
-          true
-        );
+        myChart.setOption(this.chartService.getIoInvestoChartOption(this.symbol), true);
         this.selectedStrategyDesc = `<b>Apertura posizione long:</b> per aprire una posizione, 
         il prezzo di chiusura deve essere maggiore della <b>media esponenziale a 144 periodi</b>, 
         della <b>media esponenziale</b> calcolata su <b> 20 periodi dei massimi</b> e dei <b>minimi</b>.
@@ -64,10 +65,7 @@ export class DetailComponent implements OnInit {
         è <b>minore</b> della <b>EMA dei minimi dei 20 periodi</b>.`;
         break;
       default:
-        myChart.setOption(
-          this.chartService.getDefaultChartOption(this.symbol),
-          true
-        );
+        myChart.setOption(this.chartService.getDefaultChartOption(this.symbol), true);
         this.selectedStrategyDesc = '';
         break;
     }
