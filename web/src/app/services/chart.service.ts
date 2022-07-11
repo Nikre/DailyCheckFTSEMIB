@@ -45,6 +45,24 @@ export class ChartService {
   }
 
   getIoInvestoChartOption(symbol: SymbolToShow) {
+    let i; // first index of entry
+    for (i = 0; i <= symbol.ema144Series.length; i++) {
+      if (
+        symbol.yAxisClose[i] > symbol.ema20High[i] &&
+        symbol.yAxisClose[i] > symbol.ema20Low[i] &&
+        symbol.yAxisClose[i] > symbol.ema144Series[i]
+      ) {
+        break;
+      }
+    }
+
+    let y; // first index of exit
+    for (y = 0; y <= symbol.ema144Series.length; y++) {
+      if (symbol.yAxisClose[y] < symbol.ema20Low[y]) {
+        break;
+      }
+    }
+
     var option = {
       xAxis: {
         data: symbol.xAxis,
@@ -66,6 +84,26 @@ export class ChartService {
           name: symbol.simbolo,
           type: 'candlestick',
           data: symbol.yData,
+          markPoint: {
+            data: [
+              {
+                name: 'Entry',
+                coord: [symbol.xAxis[i], symbol.yAxisClose[i]],
+                value: symbol.yAxisClose[i],
+                itemStyle: {
+                  color: '#177E89',
+                },
+              },
+              {
+                name: 'Exit',
+                coord: [symbol.xAxis[y], symbol.yAxisClose[y]],
+                value: symbol.yAxisClose[y],
+                itemStyle: {
+                  color: '#81171B',
+                },
+              },
+            ],
+          },
         },
         {
           name: 'EMA 20 Minimi',
@@ -100,6 +138,7 @@ export class ChartService {
   }
 
   getBollingerBandChartOption(symbol: SymbolToShow) {
+    // TODO: aggiungere anche il qui il markpoint
     var option = {
       grid: [
         {
