@@ -40,7 +40,7 @@
                 <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
                 <td class="text-center" [ngClass]="{'negative-variation': symbol.variazione < 0, 
                     'positive-variation': symbol.variazione >= 0}">
-                    {{ symbol.variazione | number : '1.2-2'}}€</td>
+                    {{ symbol.variazione | number : '1.2-2'}}%</td>
                 <td>{{ getStrategiesFromSymbol(symbol) }}</td>
             </tr>
         </tbody>
