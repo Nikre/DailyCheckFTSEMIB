@@ -2,5 +2,6 @@ __pycache__/
 .ipynb_checkpoints/
 symbolsToBuy.json
 symbolsToBuyExtented.json
+backtesting.json
 simple_routing/
 .DS_store
