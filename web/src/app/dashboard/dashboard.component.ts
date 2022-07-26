@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SymbolToShow } from '../models/symbol-to-show';
-import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
 import { SymbolService } from '../services/symbol.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'dashboard',
@@ -12,8 +12,10 @@ export class DashboardComponent implements OnInit {
   symbols: SymbolToShow[]
   searchedSymbol: string = ''
 
-  constructor(private symbolService: SymbolService) {
+  constructor(private symbolService: SymbolService,
+    private searchService: SearchService) {
     this.symbols = this.symbolService.getSymbol()
+      
   } 
 
   ngOnInit(): void {
