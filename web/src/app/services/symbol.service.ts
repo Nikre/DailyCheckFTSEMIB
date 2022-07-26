@@ -1,29 +1,37 @@
 import { Injectable } from '@angular/core';
-import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
 import { SymbolToShow } from '../models/symbol-to-show';
+import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
+import symbolAll from '../../../../symbolsAll.json';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SymbolService {
 
-  symbols: SymbolToShow[] = []
+  symbols: SymbolToShow[] = [];
 
   constructor() {
     // Mapping the json into model
-    symbolsFromJson.forEach(x => {  
-      this.symbols.push(new SymbolToShow(x))
-    })
-   }
+    symbolsFromJson.forEach((x) => {
+      this.symbols.push(new SymbolToShow(x));
+    });
+  }
 
-   getSymbol(society?: string) {
+  getSymbol(society?: string) {
     if (society) {
-      return this.symbols.filter(x => x.societa.toLowerCase().includes(society.toLowerCase()))
+      return this.symbols.filter((x) =>
+        x.societa.toLowerCase().includes(society.toLowerCase())
+      );
     }
-    return this.symbols
-   }
+    return this.symbols;
+  }
 
-   getSymbolFromSymbol(symbol: string) {
-    return this.symbols.filter(x => x.simbolo == symbol)[0]
-   }
+  getSymbolFromSymbol(symbol: string) {
+    return this.symbols.filter((x) => x.simbolo == symbol)[0];
+  }
+
+  getAllDataBacktest(symbol: string) {
+    const symbolAllarray = symbolAll as Array<any>; 
+    return symbolAllarray.filter(x => x.Simbolo == symbol) 
+  }
 }

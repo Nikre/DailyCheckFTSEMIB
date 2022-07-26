@@ -33,6 +33,7 @@ def main():
 
     symbolsToBuy = []
     symbolsToBuyExtended = []
+    symbolsAll = []
     backtesting = [] 
     lastSamples = 30
 
@@ -56,11 +57,6 @@ def main():
             low = df.tail(lastSamples)[func.low].values.tolist()
             openData = df.tail(lastSamples)[func.open_label].values.tolist()
             close = df.tail(lastSamples)[func.close].values.tolist()
-
-            highAll = df[func.high].values.tolist()
-            lowAll = df[func.low].values.tolist()
-            openDataAll = df[func.open_label].values.tolist()
-            closeAll = df[func.close].values.tolist()
 
             data = {
                 'Simbolo': symbol,
@@ -99,12 +95,37 @@ def main():
                 'ema20Low': df.tail(lastSamples)[func.ema20low].values.tolist(),
                 # 'ema20LowAll': df[func.ema20low].values.tolist(),
                 'ema144Series': df.tail(lastSamples)[func.ema144].values.tolist()
-                # 'ema144Series': df[func.ema144].values.tolist()
+                # 'ema144SeriesAll': df[func.ema144].values.tolist()
             }
             symbolsToBuyExtended.append(data)
 
         if(backtest):
             backtesting.append(func.backtesting_ioInvesto(df, society, symbol))
+            
+            df_temp = df.copy()
+            df_temp.dropna(axis=0, inplace=True)
+
+            highAll = df_temp[func.high].values.tolist()
+            lowAll = df_temp[func.low].values.tolist()
+            openDataAll = df_temp[func.open_label].values.tolist()
+            closeAll = df_temp[func.close].values.tolist()
+
+
+            data = {
+                'Simbolo': symbol,
+                'Societa': society,
+                'xAxis': list(map(lambda x: x.strftime("%d/%m/%Y"), df_temp.index.tolist())),
+                'yDataAll': [list(x) for x in zip(closeAll, openDataAll, lowAll, highAll)],
+                'ema200SeriesAll': df_temp[func.ema200].values.tolist(),
+                'hbbSeriesAll': df_temp[func.hbb].values.tolist(),
+                'lbbSeriesAll': df_temp[func.lbb].values.tolist(),
+                'rsiAll': df_temp[func.rsi].values.tolist(),
+                'ema20HighAll': df_temp[func.ema20high].values.tolist(),
+                'ema20LowAll': df_temp[func.ema20low].values.tolist(),
+                'ema144SeriesAll': df_temp[func.ema144].values.tolist()
+            }
+            symbolsAll.append(data)
+
 
         if (entryReyReno_bb is not None):
             data = {
@@ -134,6 +155,8 @@ def main():
     if (backtest):
         with open('backtesting.json', 'w') as f:
            json.dump(backtesting, f)
+        with open('symbolsAll.json', 'w') as f:
+           json.dump(symbolsAll, f)
 
 if __name__ == "__main__":
     main()
