@@ -1,0 +1,36 @@
+<div class="continer">
+    <div align="center">
+        <table class="table table-striped" style="width: 90%;">
+            <thead>
+                <tr>
+                    <th class="text-center" scope="col">#</th>
+                    <th class="text-center" scope="col">Entry Date</th>
+                    <th class="text-center" scope="col">Entry Price</th>
+                    <th class="text-center" scope="col">Exit Date</th>
+                    <th class="text-center" scope="col">Exit Price</th>
+                    <th class="text-center" scope="col">
+                        <span class="positive-variation">
+                            Gain
+                        </span>/
+                        <span class="negative-variation">
+                            Loss
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of ordersToShow | slice: (page-1) * pageSize : page * pageSize; index as i">
+                    <th class="text-center" scope="row">{{ (page -1) * pageSize + i + 1 }}</th>
+                    <td class="text-center">{{ order.openOrderDate | date: 'dd/MM/yyyy' }}</td>
+                    <td class="text-center">{{ order.entryPrice }}€</td>
+                    <td class="text-center">{{ order.closeOrderDate | date: 'dd/MM/yyyy' }}</td>
+                    <td class="text-center">{{ order.exitPrice }}€</td>
+                    <td class="text-center" [ngClass]="{'negative-variation': order.profit < 0, 
+                    'positive-variation': order.profit >= 0}">{{ order.profit | number : '1.2-2' }}€</td>
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [boundaryLinks]="true"
+            [pageSize]="pageSize" class="d-flex justify-content-center"></ngb-pagination>
+    </div>
+</div>

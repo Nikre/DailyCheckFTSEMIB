@@ -14,4 +14,9 @@ export class BacktestService {
       this.orders.push(new Order(x));
     });
   }
+
+  getOrders(symbol: string, strategy: number) {
+    return this.orders.filter(x => x.symbol == symbol && x.strategy == strategy)
+  }
+
 }

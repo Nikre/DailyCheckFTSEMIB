@@ -78,13 +78,13 @@ def backtesting_ioInvesto(data, society, symbol):
                     "Symbol": symbol,
                     "Societa": society,
                     "Strategy": 1, # ioInvesto è quella che ha il valore di 1
-                    "OpenOrderDate": index.strftime("%d/%m/%Y"),
+                    "OpenOrderDate": index.strftime("%m/%d/%Y"),
                     "EntryPrice": row[open_label] # che è il prezzo d'acquisto
                 }
                 open_order = True
         elif row['Signal'] == -1:
             if open_order: # posso chiudere l'ordine
-                temp['CloseOrderDate'] = index.strftime("%d/%m/%Y")
+                temp['CloseOrderDate'] = index.strftime("%m/%d/%Y")
                 temp['ExitPrice'] = row[open_label] # che è il prezzo di vendita
                 
                 orders.append(temp)

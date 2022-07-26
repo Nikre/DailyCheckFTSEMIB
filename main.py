@@ -88,7 +88,7 @@ def main():
             symbolsToBuyExtended.append(data)
 
         if(backtest):
-            backtesting.append(func.backtesting_ioInvesto(df, society, symbol))
+            backtesting += func.backtesting_ioInvesto(df, society, symbol)
             
             df_temp = df.copy()
             df_temp.dropna(axis=0, inplace=True)
