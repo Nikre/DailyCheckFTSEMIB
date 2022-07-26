@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import * as echarts from 'echarts';
 import { Order } from '../models/order';
 import { BacktestService } from '../services/backtest.service';
+import { ChartService } from '../services/chart.service';
 
 @Component({
   selector: 'backtest-detail',
@@ -15,9 +17,10 @@ export class BacktestDetailComponent implements OnInit {
   currentRate = 8;
   ordersToShow: Order[];
   selectedSymbol: string = '';
-
+  
   constructor(
     private backtestService: BacktestService,
+    private chartService: ChartService,
     private route: ActivatedRoute) {
 
     this.route.queryParams.subscribe((params) => {
@@ -29,7 +32,15 @@ export class BacktestDetailComponent implements OnInit {
     this.collectionSize = this.ordersToShow.length;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    var chartDom = document.getElementById('pieChart')!;
+    var myChart = echarts.init(chartDom);
+    myChart.setOption(
+      this.chartService.getPieChart(200, 500),
+      true
+    );
+
+  }
 
   selectedOrder(order: Order) {
     console.log(order.profit)

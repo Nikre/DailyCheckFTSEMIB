@@ -251,4 +251,48 @@ export class ChartService {
     };
     return option;
   }
+
+  getPieChart(profitable: number, totalOrder: number) {
+    var option = {
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        top: '5%',
+        left: 'center',
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          color: ['#91cc75', '#ee6666'],
+          itemStyle: {
+            borderRadius: 10,
+            borderColor: '#fff',
+            borderWidth: 2,
+          },
+          label: {
+            show: false,
+            position: 'center',
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '40',
+              fontWeight: 'bold',
+            },
+          },
+          labelLine: {
+            show: false,
+          },
+          data: [
+            { value: 1048, name: 'Profitable' },
+            { value: 735, name: 'Not Profitable' },
+          ],
+        },
+      ],
+    };
+    return option;
+  }
 }
