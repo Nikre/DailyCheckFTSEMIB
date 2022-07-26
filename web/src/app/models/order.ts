@@ -7,6 +7,7 @@ export class Order {
     closeOrderDate: Date;
     exitPrice: number;
     profit: number;
+    duration: number;
 
     constructor(obj: any) {
         this.symbol = obj.Symbol
@@ -17,5 +18,6 @@ export class Order {
         this.closeOrderDate = new Date(obj.CloseOrderDate)
         this.exitPrice = obj.ExitPrice
         this.profit = this.exitPrice - this.entryPrice
+        this.duration = Math.round(Math.abs(Number(this.closeOrderDate) - Number(this.openOrderDate)) / (24 * 60 * 60 * 1000));
     }
 }

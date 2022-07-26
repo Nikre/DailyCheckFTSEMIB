@@ -10,7 +10,7 @@ import { BacktestService } from '../services/backtest.service';
 })
 export class BacktestDetailComponent implements OnInit {
   page = 1;
-  pageSize = 15;
+  pageSize = 10;
   collectionSize: number;
   currentRate = 8;
   ordersToShow: Order[];
@@ -30,4 +30,9 @@ export class BacktestDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  selectedOrder(order: Order) {
+    console.log(order.profit)
+
+  }
 }
