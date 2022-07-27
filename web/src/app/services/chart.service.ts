@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SymbolToShow } from '../models/symbol-to-show';
+import { Order } from '../models/order';
+import { SymbolToShow } from '../models/symbol-to-show'; 
+import cloneDeep from 'lodash.clonedeep';
 
 @Injectable({
   providedIn: 'root',
@@ -252,7 +254,13 @@ export class ChartService {
     return option;
   }
 
-  getPieChart(profitable: number, totalOrder: number) {
+  private getPieChartData(orders: Order[]) {
+    var profitable = orders.filter(x => x.profit >= 0).length
+    return [profitable, (orders.length - profitable)]
+  }
+
+  getPieChart(orders: Order[]) {
+    var pieData = this.getPieChartData(orders) // first profitable, second not profitable
     var option = {
       tooltip: {
         trigger: 'item',
@@ -287,12 +295,85 @@ export class ChartService {
             show: false,
           },
           data: [
-            { value: 1048, name: 'Profitable' },
-            { value: 735, name: 'Not Profitable' },
+            { value: pieData[0], name: 'Profitable' },
+            { value: pieData[1], name: 'Not Profitable' },
           ],
         },
       ],
     };
     return option;
+  }
+
+  private getHistData(orders: Order[]) {
+
+    var orders_sort = cloneDeep(orders)
+    orders_sort.sort((a, b) => a.percentageVariation - b.percentageVariation)
+    var minVar: number = orders_sort[0].percentageVariation
+    var maxVar: number = orders_sort[orders.length - 1].percentageVariation
+    var step: number = Math.abs(minVar - maxVar) / 10
+
+    var bins: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    orders_sort.forEach(x => {
+      if (minVar <= x.percentageVariation && x.percentageVariation < (minVar + step)) bins[0] += 1;
+      if ((minVar + step) <= x.percentageVariation && x.percentageVariation < (minVar + (2 * step))) bins[1] += 1;
+      if ((minVar + (2 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (3 * step))) bins[2] += 1;
+      if ((minVar + (3 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (4 * step))) bins[3] += 1;
+      if ((minVar + (4 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (5 * step))) bins[4] += 1;
+      if ((minVar + (5 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (6 * step))) bins[5] += 1;
+      if ((minVar + (6 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (7 * step))) bins[6] += 1;
+      if ((minVar + (7 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (8 * step))) bins[7] += 1;
+      if ((minVar + (8 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (9 * step))) bins[8] += 1;
+      if ((minVar + (9 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (10 * step))) bins[9] += 1;
+      if ((minVar + (10 * step)) <= x.percentageVariation && x.percentageVariation < (minVar + (11 * step))) bins[10] += 1;
+    })
+
+    var data = []
+    for (let i = 0; i <= bins.length - 1; i++) {
+      if (i <= 5) {
+        data.push({
+          value: bins[i],
+          itemStyle: {
+            color: '#ee6666'
+          }
+        })
+      } else {
+        data.push({
+          value: bins[i],
+          itemStyle: {
+            color: '#91cc75'
+          }
+        })
+      }
+    }
+
+    return data
+  }
+
+  getHistChart(orders: Order[]) {
+    var histData = this.getHistData(orders)
+    var option = {
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow'
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: ['min', '', '', '', '', '0', '', '', '', '', 'MAX']
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          data: histData,
+          type: 'bar',
+          //color: ['#ee6666'],
+        },
+      ]
+    };
+    return option
   }
 }
