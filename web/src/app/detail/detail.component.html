@@ -60,17 +60,19 @@
             <ng-container *ngIf="selectedStrategy == 1">
                 <tr>
                     <th class="text-center" scope="row">EMA 200:</th>
-                    <td class="text-center">{{ symbol.ema200Series[symbol.ema200Series.length - 1] | number : '1.2-2' }}€</td>
+                    <td class="text-center">{{ (symbol.ema200Series != null) ? (symbol.ema200Series[symbol.ema200Series.length - 1]) : 0 | number : '1.2-2' }}€</td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">Banda di Bollinger inferiore: </th>
-                    <td class="text-center"> {{ symbol.lbbSeries[symbol.lbbSeries.length - 1] | number : '1.2-2' }}€
+                    <td class="text-center"> {{ (symbol.lbbSeries != null) ? (symbol.lbbSeries[symbol.lbbSeries.length - 1]) : 0 | number : '1.2-2' }}€
                     </td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">RSI: </th>
-                    <td *ngIf="symbol.rsi[symbol.rsi.length - 1] >= 50" class="text-center positive-variation">{{ symbol.rsi[symbol.rsi.length - 1] }}</td>
-                    <td *ngIf="symbol.rsi[symbol.rsi.length - 1] < 50" class="text-center negative-variation">{{ symbol.rsi[symbol.rsi.length - 1] }}</td>
+                    <td *ngIf="symbol.rsi != null && symbol.rsi[symbol.rsi.length - 1] >= 50" class="text-center positive-variation">
+                        {{ symbol.rsi[symbol.rsi.length - 1] }}
+                    </td>
+                    <td *ngIf="symbol.rsi != null && symbol.rsi[symbol.rsi.length - 1] < 50" class="text-center negative-variation">{{ symbol.rsi[symbol.rsi.length - 1] }}</td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">Posizione: </th>
@@ -81,15 +83,15 @@
             <ng-container *ngIf="selectedStrategy == 2">
                 <tr>
                     <th class="text-center" scope="row">EMA 20 Massimi:</th>
-                    <td class="text-center">{{ symbol.ema20High[symbol.ema20High.length - 1] | number : '1.2-2' }}€</td>
+                    <td class="text-center">{{ (symbol.ema20High != null) ? (symbol.ema20High[symbol.ema20High.length - 1]) : 0 | number : '1.2-2' }}€</td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">EMA 20 Mimini: </th>
-                    <td class="text-center"> {{ symbol.ema20Low[symbol.ema20Low.length - 1] | number : '1.2-2' }}€</td>
+                    <td class="text-center"> {{ (symbol.ema20Low != null) ? (symbol.ema20Low[symbol.ema20Low.length - 1]) : 0 | number : '1.2-2' }}€</td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">EMA 144: </th>
-                    <td class="text-center"> {{ symbol.ema144Series[symbol.ema144Series.length - 1] | number : '1.2-2'}}€</td>
+                    <td class="text-center"> {{ (symbol.ema144Series != null) ? (symbol.ema144Series[symbol.ema144Series.length - 1]) : 0 | number : '1.2-2'}}€</td>
                 </tr>
                 <tr>
                     <th class="text-center" scope="row">Posizione: </th>

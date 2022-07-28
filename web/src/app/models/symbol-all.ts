@@ -1,27 +1,31 @@
 export class SymbolAll {
-  simbolo: string;
-  societa: string;
-  xAxis: number[];
-  yDataAll: [number[]];
-  ema200SeriesAll: number[];
-  hbbSeriesAll: number[];
-  lbbSeriesAll?: number[];
-  rsiAll: number[];
-  ema20HighAll: number[];
-  ema20LowAll: number[];
-  ema144SeriesAll: number[];
+  simbolo: string = "N.D";
+  societa: string = "N.D";
+  xAxis: [] = [];
+  yData: [number[]] = [[]];
+  ema200Series: number[] = [];
+  hbbSeries: number[] = [];
+  lbbSeries: number[] = [];
+  rsi: number[] = [];
+  ema20High: number[] = [];
+  ema20Low: number[] = [];
+  ema144Series: number[] = [];
 
-  constructor(obj: any) {
-    this.simbolo = obj.Simbolo;
-    this.societa = obj.Societa;
-    this.xAxis = obj.xAxis;
-    this.yDataAll = obj.yDataAll;
-    this.ema200SeriesAll = obj.ema200SeriesAll;    
-    this.hbbSeriesAll = obj.hbbSeriesAll;    
-    this.lbbSeriesAll = obj.lbbSeriesAll;    
-    this.rsiAll = obj.rsiAll;    
-    this.ema20HighAll= obj.ema20HighAll;    
-    this.ema20LowAll = obj.ema20LowAll;    
-    this.ema144SeriesAll = obj.ema144SeriesAll;
+  constructor();
+  constructor(obj: any);
+  constructor(obj: any = null) {
+    if(obj != null) {
+      this.simbolo = obj.Simbolo;
+      this.societa = obj.Societa;
+      this.xAxis = obj.xAxis;
+      this.yData = obj.yData;
+      this.ema200Series = obj.ema200Series;    
+      this.hbbSeries = obj.hbbSeries;    
+      this.lbbSeries = obj.lbbSeries;    
+      this.rsi = obj.rsi;
+      this.ema20High = obj.ema20High;    
+      this.ema20Low = obj.ema20Low;    
+      this.ema144Series = obj.ema144Series;
+    }
   }
 }

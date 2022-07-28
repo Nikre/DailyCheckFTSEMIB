@@ -103,14 +103,14 @@ def main():
                 'Simbolo': symbol,
                 'Societa': society,
                 'xAxis': list(map(lambda x: x.strftime("%d/%m/%Y"), df_temp.index.tolist())),
-                'yDataAll': [list(x) for x in zip(closeAll, openDataAll, lowAll, highAll)],
-                'ema200SeriesAll': df_temp[func.ema200].values.tolist(),
-                'hbbSeriesAll': df_temp[func.hbb].values.tolist(),
-                'lbbSeriesAll': df_temp[func.lbb].values.tolist(),
-                'rsiAll': df_temp[func.rsi].values.tolist(),
-                'ema20HighAll': df_temp[func.ema20high].values.tolist(),
-                'ema20LowAll': df_temp[func.ema20low].values.tolist(),
-                'ema144SeriesAll': df_temp[func.ema144].values.tolist()
+                'yData': [list(x) for x in zip(closeAll, openDataAll, lowAll, highAll)],
+                'ema200Series': df_temp[func.ema200].values.tolist(),
+                'hbbSeries': df_temp[func.hbb].values.tolist(),
+                'lbbSeries': df_temp[func.lbb].values.tolist(),
+                'rsi': df_temp[func.rsi].values.tolist(),
+                'ema20High': df_temp[func.ema20high].values.tolist(),
+                'ema20Low': df_temp[func.ema20low].values.tolist(),
+                'ema144Series': df_temp[func.ema144].values.tolist()
             }
             symbolsAll.append(data)
 
