@@ -113,8 +113,8 @@ export class ChartService {
       }
     }
 
-    let y; // first index of exit
-    for (y = 0; y <= symbol.ema144Series!.length; y++) {
+    let y; // last index of exit
+    for (y = symbol.ema144Series!.length; y <= i; y--) {
       if (symbol.yAxisClose![y] < symbol.ema20Low![y]) {
         break;
       }
@@ -488,7 +488,6 @@ export class ChartService {
     ema20Low: number[],
     ema144Series: number[]
   ) {
-    debugger
     var option = {
       xAxis: {
         data: xAxis,
