@@ -527,7 +527,8 @@ export class ChartService {
               {
                 name: 'Entry',
                 coord: [this.dateService.getStringDateFromDateObject(order.openOrderDate), order.entryPrice],
-                value: order.entryPrice,
+                // value: order.entryPrice,
+                symbolRotate: '90', // angolatura
                 itemStyle: {
                   color: '#177E89',
                 },
@@ -535,7 +536,8 @@ export class ChartService {
               {
                 name: 'Exit',
                 coord: [this.dateService.getStringDateFromDateObject(order.closeOrderDate), order.exitPrice],
-                value: order.exitPrice,
+                // value: order.exitPrice,
+                symbolRotate: '90', // angolatura
                 itemStyle: {
                   color: '#81171B',
                 },
