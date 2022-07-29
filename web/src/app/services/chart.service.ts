@@ -359,114 +359,58 @@ export class ChartService {
     return option;
   }
 
+  /**
+   * Funzione che restituisce soltanto i dati ordinati delle variazioni, 
+   * molto semplicemente.
+   * 
+   * @param orders 
+   * @returns array[] - array ordinato delle variazioniin modo tale da capire come sono distribuite
+   * 
+   */  
   private getHistData(orders: Order[]) {
     var orders_sort = cloneDeep(orders);
     orders_sort.sort((a, b) => a.percentageVariation - b.percentageVariation);
-    var minVar: number = orders_sort[0].percentageVariation;
-    var maxVar: number = orders_sort[orders.length - 1].percentageVariation;
-    var step: number = Math.abs(minVar - maxVar) / 10;
+    // var minVar: number = orders_sort[0].percentageVariation;
+    // var maxVar: number = orders_sort[orders.length - 1].percentageVariation;
+    // var step: number = Math.abs(minVar - maxVar) / 10;
 
-    var bins: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var labels: string[] = [];
+    var data: any = [];
 
     orders_sort.forEach((x) => {
-      if (
-        minVar <= x.percentageVariation &&
-        x.percentageVariation < minVar + step
-      )
-        bins[0] += 1;
-      if (
-        minVar + step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 2 * step
-      )
-        bins[1] += 1;
-      if (
-        minVar + 2 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 3 * step
-      )
-        bins[2] += 1;
-      if (
-        minVar + 3 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 4 * step
-      )
-        bins[3] += 1;
-      if (
-        minVar + 4 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 5 * step
-      )
-        bins[4] += 1;
-      if (
-        minVar + 5 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 6 * step
-      )
-        bins[5] += 1;
-      if (
-        minVar + 6 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 7 * step
-      )
-        bins[6] += 1;
-      if (
-        minVar + 7 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 8 * step
-      )
-        bins[7] += 1;
-      if (
-        minVar + 8 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 9 * step
-      )
-        bins[8] += 1;
-      if (
-        minVar + 9 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 10 * step
-      )
-        bins[9] += 1;
-      if (
-        minVar + 10 * step <= x.percentageVariation &&
-        x.percentageVariation < minVar + 11 * step
-      )
-        bins[10] += 1;
+      data.push({
+        value: x.percentageVariation,
+        itemStyle: {
+          color: x.percentageVariation >= 0 ? '#91cc75' : '#ee6666',
+        },
+      });
+      labels.push(String(Math.round(x.percentageVariation)))
     });
 
-    var data = [];
-    for (let i = 0; i <= bins.length - 1; i++) {
-      if (i <= 5) {
-        data.push({
-          value: bins[i],
-          itemStyle: {
-            color: '#ee6666',
-          },
-        });
-      } else {
-        data.push({
-          value: bins[i],
-          itemStyle: {
-            color: '#91cc75',
-          },
-        });
-      }
-    }
-
-    return data;
+    return [labels, data];
   }
 
   getHistChart(orders: Order[]) {
-    var histData = this.getHistData(orders);
+    var [histLabels, histData] = this.getHistData(orders);
     var option = {
       title: {
         text: 'Istogramma delle variazioni',
         left: 'center',
       },
-      tooltip: {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'shadow',
-        },
-      },
       xAxis: {
         type: 'category',
-        data: ['min', '', '', '', '', '0', '', '', '', '', 'MAX'],
+        data: histLabels,
       },
       yAxis: {
         type: 'value',
+        name: 'Values',
+        // nameLocation: 'center',
+        nameTextStyle: {
+          fontWeight: 'bold',
+          fontSize: 14,
+          align: 'right',
+          paddind: '10'
+        }
       },
       series: [
         {
