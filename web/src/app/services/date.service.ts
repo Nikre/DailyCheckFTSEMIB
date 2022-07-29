@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Order } from '../models/order';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,8 @@ export class DateService {
     return dateObject
   }
 
-  /** Maledetto il signore, le date, devo tener conto degli zeri, quindi 18/4/2044, deve essere 18/04/2044,
+  /** 
+   * Maledetto il signore, le date, devo tener conto degli zeri, quindi 18/4/2044, deve essere 18/04/2044,
    * così come 9/8/1993 deve essere 09/08/1993
    * 
    * Usata per il marker
@@ -36,4 +38,38 @@ export class DateService {
     debugger
     return d + '/' + m + '/' + y
   }
+
+  /**
+   * Funzione che calcola gli indici di un dell'intervallo dell'ordine
+   * 
+   * @returns 
+   * [srtInd, endInx]
+   */
+  getInterval(order: Order, backtestDates: string[]) {
+
+    var xAxisDates = backtestDates.map((x) =>
+      this.getDateFromString(x, true)
+    );
+
+    var filterStartDate = new Date(order.openOrderDate);
+    filterStartDate.setDate(order.openOrderDate.getDate() - 2);
+    if (filterStartDate.getDay() >= 6 || filterStartDate.getDay() == 0) {
+      // se è una domenica (valore 0) o un sabato (valore 6)
+      filterStartDate.setDate(order.openOrderDate.getDate() - 4);
+    }
+    var filterEndDate = new Date(order.closeOrderDate);
+    filterEndDate.setDate(order.closeOrderDate.getDate() + 2);
+    if (filterEndDate.getDay() >= 6 || filterEndDate.getDay() == 0) {
+      filterEndDate.setDate(order.closeOrderDate.getDate() + 4);
+    }
+
+    var startIndex =
+      xAxisDates.indexOf(filterStartDate.toDateString()) == -1
+        ? 0
+        : xAxisDates.indexOf(filterStartDate.toDateString());
+    var endIndex = xAxisDates.indexOf(filterEndDate.toDateString());
+
+    return [startIndex, endIndex]
+  }
+
 }

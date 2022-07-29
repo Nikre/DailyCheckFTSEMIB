@@ -71,36 +71,16 @@ export class BacktestDetailComponent implements OnInit {
   }
 
   onOrderSelected(order: Order) {
-    this.selectedOrder = order;
 
-    // TODO metterla dentro un service
+    this.selectedOrder = order;
+    
     if (this.backtestAllData == null) {
       // non ho i dati a disposizione quindi li devo prendere
       var data = this.symbolService.getBacktestFromOrder(order.symbol);
       this.backtestAllData = new SymbolToShow(data);
     }
 
-    var xAxisDates = this.backtestAllData.xAxis.map((x) =>
-      this.dateService.getDateFromString(x, true)
-    );
-
-    var filterStartDate = new Date(order.openOrderDate);
-    filterStartDate.setDate(order.openOrderDate.getDate() - 2);
-    if (filterStartDate.getDay() >= 6 || filterStartDate.getDay() == 0) {
-      // se è una domenica (valore 0) o un sabato (valore 6)
-      filterStartDate.setDate(order.openOrderDate.getDate() - 4);
-    }
-    var filterEndDate = new Date(order.closeOrderDate);
-    filterEndDate.setDate(order.closeOrderDate.getDate() + 2);
-    if (filterEndDate.getDay() >= 6 || filterEndDate.getDay() == 0) {
-      filterEndDate.setDate(order.closeOrderDate.getDate() + 4);
-    }
-
-    var startIndex =
-      xAxisDates.indexOf(filterStartDate.toDateString()) == -1
-        ? 0
-        : xAxisDates.indexOf(filterStartDate.toDateString());
-    var endIndex = xAxisDates.indexOf(filterEndDate.toDateString());
+    var [startIndex, endIndex] = this.dateService.getInterval(order, this.backtestAllData.xAxis)
 
     var backtestChartDom = document.getElementById('backtestChart')!;
     var backtestChart = echarts.init(backtestChartDom);
