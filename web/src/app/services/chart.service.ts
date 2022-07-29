@@ -2,19 +2,20 @@ import { Injectable } from '@angular/core';
 import { Order } from '../models/order';
 import { SymbolToShow } from '../models/symbol-to-show';
 import cloneDeep from 'lodash.clonedeep';
+import { DateService } from './date.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChartService {
-  constructor() {}
+  constructor(private dateService: DateService) {}
 
   getRandomColor() {
-    return '#' + Math.floor(Math.random()*16777215).toString(16)
+    return '#' + Math.floor(Math.random() * 16777215).toString(16);
   }
 
   getLoadingChart() {
-    var randomColor = this.getRandomColor()
+    var randomColor = this.getRandomColor();
     var option = {
       title: {
         text: 'Seleziona un ordine...',
@@ -33,7 +34,7 @@ export class ChartService {
                 x: 0,
                 y: -40,
                 width: 10,
-                height: 80
+                height: 80,
               },
               style: {
                 fill: randomColor,
@@ -46,19 +47,19 @@ export class ChartService {
                   {
                     percent: 0.5,
                     scaleY: 0.3,
-                    easing: 'cubicIn'
+                    easing: 'cubicIn',
                   },
                   {
                     percent: 1,
                     scaleY: 1,
-                    easing: 'cubicOut'
-                  }
-                ]
-              }
-            }))
-          }
-        ]
-      }
+                    easing: 'cubicOut',
+                  },
+                ],
+              },
+            })),
+          },
+        ],
+      },
     };
     return option;
   }
@@ -480,13 +481,14 @@ export class ChartService {
 
   getBacktestIoInvesto(
     symbol: string,
+    order: Order,
     xAxis: string[],
     yData: any,
     ema20High: number[],
     ema20Low: number[],
     ema144Series: number[]
   ) {
-    
+    debugger
     var option = {
       xAxis: {
         data: xAxis,
@@ -498,13 +500,13 @@ export class ChartService {
         {
           type: 'inside',
           start: 0,
-          end: 100
+          end: 100,
         },
         {
           show: false, // con questo flag lo slider è visibile o meno
           type: 'slider',
-          top: '90%'
-        }
+          top: '90%',
+        },
       ],
       tooltip: {
         trigger: 'axis',
@@ -520,6 +522,26 @@ export class ChartService {
           name: symbol,
           type: 'candlestick',
           data: yData,
+          markPoint: {
+            data: [
+              {
+                name: 'Entry',
+                coord: [this.dateService.getStringDateFromDateObject(order.openOrderDate), order.entryPrice],
+                value: order.entryPrice,
+                itemStyle: {
+                  color: '#177E89',
+                },
+              },
+              {
+                name: 'Exit',
+                coord: [this.dateService.getStringDateFromDateObject(order.closeOrderDate), order.exitPrice],
+                value: order.exitPrice,
+                itemStyle: {
+                  color: '#81171B',
+                },
+              },
+            ],
+          },
         },
         {
           name: 'EMA 20 Minimi',
