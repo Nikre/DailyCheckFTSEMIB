@@ -9,8 +9,57 @@ import cloneDeep from 'lodash.clonedeep';
 export class ChartService {
   constructor() {}
 
-  getEmptyChart() {
-    var option = {};
+  getRandomColor() {
+    return '#' + Math.floor(Math.random()*16777215).toString(16)
+  }
+
+  getLoadingChart() {
+    var randomColor = this.getRandomColor()
+    var option = {
+      title: {
+        text: 'Seleziona un ordine...',
+        left: 'center',
+      },
+      graphic: {
+        elements: [
+          {
+            type: 'group',
+            left: 'center',
+            top: '10%',
+            children: new Array(15).fill(0).map((val, i) => ({
+              type: 'rect',
+              x: i * 20,
+              shape: {
+                x: 0,
+                y: -40,
+                width: 10,
+                height: 80
+              },
+              style: {
+                fill: randomColor,
+              },
+              keyframeAnimation: {
+                duration: 1000,
+                delay: i * 200,
+                loop: true,
+                keyframes: [
+                  {
+                    percent: 0.5,
+                    scaleY: 0.3,
+                    easing: 'cubicIn'
+                  },
+                  {
+                    percent: 1,
+                    scaleY: 1,
+                    easing: 'cubicOut'
+                  }
+                ]
+              }
+            }))
+          }
+        ]
+      }
+    };
     return option;
   }
 
@@ -403,7 +452,7 @@ export class ChartService {
     var option = {
       title: {
         text: 'Istogramma delle variazioni',
-        left: '10%',
+        left: 'center',
       },
       tooltip: {
         trigger: 'axis',

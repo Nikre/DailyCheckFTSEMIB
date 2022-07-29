@@ -57,14 +57,14 @@ export class BacktestDetailComponent implements OnInit {
 
     var backtestChartDom = document.getElementById('backtestChart')!;
     var backtestChart = echarts.init(backtestChartDom);
-    backtestChart.setOption(this.chartService.getEmptyChart(), true);
+    backtestChart.setOption(this.chartService.getLoadingChart(), true);
     
   }
   
   onOrderSelected(order: Order) {
     this.selectedOrder = order
     
-
+    // TODO metterla dentro un service
     if (this.backtestAllData == null) { // non ho i dati a disposizione quindi li devo prendere
       var data = this.symbolService.getBacktestFromOrder(order.symbol)
       this.backtestAllData = new SymbolToShow(data)
