@@ -486,7 +486,7 @@ export class ChartService {
     ema20Low: number[],
     ema144Series: number[]
   ) {
-    debugger
+    
     var option = {
       xAxis: {
         data: xAxis,
@@ -494,6 +494,18 @@ export class ChartService {
       yAxis: {
         scale: true,
       },
+      dataZoom: [
+        {
+          type: 'inside',
+          start: 0,
+          end: 100
+        },
+        {
+          show: false, // con questo flag lo slider è visibile o meno
+          type: 'slider',
+          top: '90%'
+        }
+      ],
       tooltip: {
         trigger: 'axis',
         axisPointer: {
