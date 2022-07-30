@@ -23,6 +23,8 @@ export class BacktestDetailComponent implements OnInit {
   selectedSociety: string = '';
   averageDuration: number;
   averageProfit: number;
+  minVariation: number;
+  maxVariation: number;
   selectedOrder?: Order;
   backtestAllData?: SymbolToShow; // = new SymbolToShow();
 
@@ -51,6 +53,8 @@ export class BacktestDetailComponent implements OnInit {
     this.averageProfit =
       this.ordersToShow.reduce((sum, current) => sum + current.profit, 0) /
       this.ordersToShow.length;
+
+    [this.minVariation, this.maxVariation] = this.chartService.getMinMaxVariationPercentage(this.ordersToShow)
   }
 
   ngOnInit(): void {

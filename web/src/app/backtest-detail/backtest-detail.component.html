@@ -21,7 +21,7 @@
                             </span>
                             <span [ngClass]="{'negative-variation': averageProfit < 0, 
                             'positive-variation': averageProfit >= 0}">
-                                {{ averageProfit | number : '1.2-2'}}€
+                                {{ averageProfit | number : '1.2-2' }}€
                             </span>
                         </td>
                     </tr>
@@ -31,6 +31,22 @@
                                 # ordini:
                             </span>
                             <span>{{ ordersToShow.length}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="font-weight: bold">
+                                Max Δ%:
+                            </span>
+                            <span class="positive-variation">{{ maxVariation | number : '1.2-2'}}</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span style="font-weight: bold">
+                                min Δ%:
+                            </span>
+                            <span class="negative-variation">{{ minVariation | number : '1.2-2' }}</span>
                         </td>
                     </tr>
                 </tbody>

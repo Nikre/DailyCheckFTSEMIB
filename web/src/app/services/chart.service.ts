@@ -359,20 +359,28 @@ export class ChartService {
     return option;
   }
 
-  /**
-   * Funzione che restituisce soltanto i dati ordinati delle variazioni, 
-   * molto semplicemente.
-   * 
-   * @param orders 
-   * @returns array[] - array ordinato delle variazioniin modo tale da capire come sono distribuite
-   * 
-   */  
-  private getHistData(orders: Order[]) {
+  private getOrdersSort(orders: Order[]) {
     var orders_sort = cloneDeep(orders);
     orders_sort.sort((a, b) => a.percentageVariation - b.percentageVariation);
-    // var minVar: number = orders_sort[0].percentageVariation;
-    // var maxVar: number = orders_sort[orders.length - 1].percentageVariation;
-    // var step: number = Math.abs(minVar - maxVar) / 10;
+    return orders_sort
+  }
+
+  getMinMaxVariationPercentage(orders: Order[]) {
+    var orders_sorted = this.getOrdersSort(orders)
+    debugger
+    return [orders_sorted[0].percentageVariation, orders_sorted[orders_sorted.length - 1].percentageVariation] 
+  }
+
+  /**
+   * Funzione che restituisce soltanto i due parametri che servono per il grafico dell'histogramma.
+   * 
+   * @param orders 
+   * @returns array[] - array ordinato delle variazioniin modo tale da capire come sono distribuite,
+   * e le rispettive labels
+   * 
+   */ 
+  private getHistData(orders: Order[]) {
+    var orders_sort = this.getOrdersSort(orders)
 
     var labels: string[] = [];
     var data: any = [];
