@@ -3,3 +3,4 @@ __pycache__/
 *.json
 simple_routing/
 .DS_store
+*.db
