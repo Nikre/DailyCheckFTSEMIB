@@ -1,37 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { SymbolToShow } from '../models/symbol-to-show';
-import symbolsFromJson from '../../../../symbolsToBuyExtented.json';
 import { SymbolService } from '../services/symbol.service';
+import { DashboardSymbol } from '../models/dashboard-symbol';
 
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  symbols: SymbolToShow[]
-  searchedSymbol: string = ''
+  symbols: DashboardSymbol[] = [];
+  searchedSymbol: string = '';
 
-  constructor(private symbolService: SymbolService) {
-    this.symbols = this.symbolService.getSymbol()
-  } 
+  constructor(private symbolService: SymbolService) {}
 
   ngOnInit(): void {
+    this.symbolService.getSymbols().subscribe((res) => {
+      this.symbols = res;
+    });
   }
 
   searching() {
-    this.symbols = this.symbolService.getSymbol(this.searchedSymbol)
-  }
-
-  getStrategiesFromSymbol(symbol: SymbolToShow) {
-    var strategie = []
-    if (symbol.strategie['ReyReno'] == 1) {
-      strategie.push('RayReno')
-    }
-    if (symbol.strategie['IoInvesto'] == 1) {
-      strategie.push('IoInvesto')
-    }
-
-    return strategie.join(', ')
+    this.symbolService.getSymbols().subscribe((res) => {
+      this.symbols = res.filter((x) =>
+        x.society.toLowerCase().includes(this.searchedSymbol.toLowerCase())
+      );
+    });
   }
 }

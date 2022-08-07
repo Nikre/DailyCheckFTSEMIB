@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/dashboard">Multiday trading explorer</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
                 </li>
@@ -26,22 +26,23 @@
                 <th scope="col">Società</th>
                 <th class="text-center" scope="col">Open</th>
                 <th class="text-center" scope="col">Close</th>
-                <th class="text-center" scope="col">EMA 200</th>
+                <th class="text-center" scope="col">Trend</th>
                 <th class="text-center" scope="col">Variazione %</th>
-                <th class="text-center" scope="col">Strategia</th>
+                <th class="text-center" scope="col">Strategie</th>
             </tr>
         </thead>
         <tbody>
-            <tr routerLink="/detail" [queryParams]="{simbolo: symbol.simbolo}" routerLinkActive="active"
-                [ngClass]="{'buyable-background': symbol.buyable}" *ngFor="let symbol of symbols">
-                <th>{{ symbol.societa }}</th>
-                <td class="text-center">{{ symbol.apertura | number : '1.2-2'}}€</td>
-                <td class="text-center">{{ symbol.chiusura | number : '1.2-2' }}€</td>
-                <td class="text-center">{{ symbol.ema200 | number : '1.2-2'}}€</td>
-                <td class="text-center" [ngClass]="{'negative-variation': symbol.variazione < 0, 
-                    'positive-variation': symbol.variazione >= 0}">
-                    {{ symbol.variazione | number : '1.2-2'}}%</td>
-                <td class="text-center">{{ getStrategiesFromSymbol(symbol) }}</td>
+            <tr routerLink="/detail" [queryParams]="{simbolo: symbol.symbol}" routerLinkActive="active"
+                [ngClass]="{'buyable-background': symbol.strategies != ''}" *ngFor="let symbol of symbols">
+                <th>{{ symbol.society }}</th>
+                <td class="text-center">{{ symbol.open | number : '1.2-2'}}€</td>
+                <td class="text-center">{{ symbol.close | number : '1.2-2' }}€</td>
+                <td class="text-center" [ngClass]="{'negative-variation': !symbol.trend, 
+                'positive-variation': symbol.trend}">{{ symbol.trend ? "Uptrend": "Downtrend"}}</td>
+                <td class="text-center" [ngClass]="{'negative-variation': symbol.variation < 0, 
+                    'positive-variation': symbol.variation >= 0}">
+                    {{ symbol.variation | number : '1.2-2'}}%</td>
+                <td class="text-center">{{ symbol.strategies }}</td>
             </tr>
         </tbody>
     </table>
