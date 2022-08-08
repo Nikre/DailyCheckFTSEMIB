@@ -1,7 +1,6 @@
 import func.database as db 
 import func.func as func
-import json
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -38,7 +37,7 @@ def dashboard():
     data_fe = []
     strategies = []
     for symbol in symbols:
-        df = db.get_stock_for_dashboard(symbol[0]) # lo zero è perchè è una tupla
+        df = db.get_stock(symbol[0]) # lo zero è perchè è una tupla
         func.add_indicators(df)
         df = df.round(3) # La round() non è inplace
 
@@ -55,3 +54,35 @@ def dashboard():
         data_fe.append(temp)
 
     return jsonify(data_fe)
+
+
+@app.route("/detail", methods=["GET"])
+def detail():
+    args = request.args.to_dict()
+    symbol = args.get('symbol') # Simbolo da andare a prendere dal db
+    strategy = args.get('strategy') # La strategia più essere vuota
+    society = db.get_society_from_symbol(symbol) # Lo zero è perchè una tupla
+    print(society)
+
+    df = db.get_stock(symbol)
+
+    func.add_default_indicators(df)
+    df = df.round(3) # La round() non è inplace
+    xData = func.get_xData(df.tail(func.lastSample))
+    yData = func.get_yData(df.tail(func.lastSample))
+
+    if (strategy == ''):
+       # Qui si devono restituire i dati semplici
+       # print(func.get_xData(df))
+       indicators = func.get_default_indicators(df.tail(func.lastSample))
+       data_fe = {
+            'society': society,
+            'xData': xData,
+            'yData': yData,
+            'indicators': indicators
+       }
+       return jsonify(data_fe)
+    else:
+        print('Cè una strategia')
+
+    return args

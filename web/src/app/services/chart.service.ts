@@ -3,6 +3,7 @@ import { Order } from '../models/order';
 import { SymbolToShow } from '../models/symbol-to-show';
 import cloneDeep from 'lodash.clonedeep';
 import { DateService } from './date.service';
+import { DetailSymbol } from '../models/detail-symbol';
 
 @Injectable({
   providedIn: 'root',
@@ -64,10 +65,10 @@ export class ChartService {
     return option;
   }
 
-  getDefaultChartOption(symbol: SymbolToShow) {
+  getDefaultChartOption(symbol: DetailSymbol) {
     var option = {
       xAxis: {
-        data: symbol.xAxis,
+        data: symbol.xData,
       },
       yAxis: {
         scale: true,
@@ -79,18 +80,18 @@ export class ChartService {
         },
       },
       legend: {
-        data: [symbol.simbolo, 'EMA 200'],
+        data: [symbol.society, 'EMA 200'],
       },
       series: [
         {
-          name: symbol.simbolo,
+          name: symbol.society,
           type: 'candlestick',
           data: symbol.yData,
         },
         {
           name: 'EMA 200',
           type: 'line',
-          data: symbol.ema200Series,
+          data: symbol.indicators[0], // qui c'è solo un indicatore
           smooth: true,
           lineStyle: {
             opacity: 0.5,

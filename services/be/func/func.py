@@ -1,9 +1,10 @@
 import pandas as pd
+from datetime import datetime
 import ta
 
 # Indicators
-open_label = 'open'
-close = 'close'
+open_label = 'open' # open è una parola chiave
+close = 'close' 
 high = 'high'
 society = 'society'
 symbol = 'symbol'
@@ -19,6 +20,7 @@ hbb = 'hbb2.5std'
 lbb = 'lbb2.5std'
 rsi = 'rsi2'
 signal = 'signal'
+lastSample = 30
 
 
 def add_indicators(df):
@@ -34,6 +36,31 @@ def add_indicators(df):
     df[rsi] = ta.momentum.RSIIndicator(df[close], window=2).rsi()
     df[signal] = -1  # Column used in backtesting
 
+def add_default_indicators(df):
+    df[ema200] = ta.trend.EMAIndicator(df[close], window=200).ema_indicator()
+
+def get_xData(df):
+    ''' Questo metodo permette di costruire un array di stringhe che rappresentano la data. 
+    Da db mi arrivano già date, ma voglio essere proprio sicuro di fare la conversione in maniera consona'''
+    string_dates = df['date'].tolist()
+    date_dates = map(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'), string_dates) 
+    correct_dates = list(map(lambda x: x.strftime("%d/%m/%Y"), date_dates))
+    return correct_dates
+
+def get_yData(df):
+    ''' Funzione che calcola restituisce le candele per un grafico a candele '''
+    high_data = df[high].values.tolist()
+    low_data = df[low].values.tolist()
+    open_data = df[open_label].values.tolist()
+    close_data = df[close].values.tolist()
+
+    candles = [list(x) for x in zip(close_data, open_data, low_data, high_data)]
+    return candles
+
+def get_default_indicators(df):
+    ''' Questa è la funzione che calcola gli indicatori da mettere nel grafico di default '''
+    ema200_data = df[ema200].values.tolist()
+    return [ema200_data]
 
 def trend_analysis(data):
     if (data[close].values > data[ema200].values):

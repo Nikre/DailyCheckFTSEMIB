@@ -23,13 +23,13 @@ def build_stocks_db():
     # Prendo i ticker e il nome delle società
     logging.debug("Inizio download societa")
 
-    # symbols = ['ISP.MI', 'RACE.MI']
-    # societies = ['Società', 'Società2']
+    symbols = ['ISP.MI', 'RACE.MI']
+    societies = ['Intesa San Paoloo', 'Ferrarii']
 
-    symbols = pd.read_html(
-        'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
-    societies = pd.read_html(
-        'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Società']
+    # symbols = pd.read_html(
+    #     'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
+    # societies = pd.read_html(
+    #     'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Società']
 
     logging.info("Download societies OK")
 
@@ -79,8 +79,16 @@ def get_stocks_symbols():
     con.commit()
     return res
 
-def get_stock_for_dashboard(symbol) -> pd.DataFrame:
+def get_society_from_symbol(symbol):
+    con = sqlite3.connect('./app.db')
+    cur = con.cursor()
+    res = cur.execute(f"select distinct society from stocks where symbol = '{symbol}'")
+    con.commit()
+    return res.fetchone()[0] # Perchè è una tupla
+
+
+def get_stock(symbol) -> pd.DataFrame:
     con = sqlite3.connect('./app.db')
     return pd.read_sql(f'''SELECT * FROM 
-        (SELECT * from stocks where symbol = '{symbol}' order by date desc limit 220)
+        (SELECT * from stocks where symbol = '{symbol}' order by date desc limit 250)
         ORDER BY date asc''', con)
