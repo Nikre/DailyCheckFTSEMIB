@@ -6,7 +6,6 @@ import yfinance as yf
 
 logging.basicConfig(level=logging.INFO)
 
-
 def close_db(sig, frame):
     con = sqlite3.connect('./app.db')
     con.execute("DROP TABLE stocks")
