@@ -1,8 +1,8 @@
 export class DetailSymbol {
     society: string = ''
     xData: string[] = []// Array delle date
-    yData: [number[]] = [[]]// Array delle date
-    indicators: [number[]] = [[]]// Array degli indicatori 
+    yData: number[][] = []// Array delle candele
+    indicators: number[][] = []// Array degli indicatori 
 
     constructor()
     constructor(obj?: DetailSymbol)

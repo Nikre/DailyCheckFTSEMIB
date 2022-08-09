@@ -16,8 +16,8 @@ ema20low = 'ema20low'
 ema50 = 'ema50'
 ema144 = 'ema144'
 ema200 = 'ema200'
-hbb = 'hbb2.5std'
-lbb = 'lbb2.5std'
+hbb = 'hbb2_5std'
+lbb = 'lbb2_5std'
 rsi = 'rsi2'
 signal = 'signal'
 lastSample = 30
@@ -61,6 +61,28 @@ def get_default_indicators(df):
     ''' Questa è la funzione che calcola gli indicatori da mettere nel grafico di default '''
     ema200_data = df[ema200].values.tolist()
     return [ema200_data]
+
+def rayner_teo_bollinger_indicators(df):
+    ''' Questa è la funzione che calcola gli indicatori per il gradico di rayner teo sulle bollinger bands 
+    [0] - ema 200
+    [1] - hbb
+    [2] - lbb
+    [3] - rsi'''
+    ema200_data = df[ema200].values.tolist() # [0]
+    hbb_data = df[hbb].values.tolist() # [1]
+    lbb_data = df[lbb].values.tolist() # [2]
+    rsi_data = df[rsi].values.tolist() # [3]
+    return [ema200_data, hbb_data, lbb_data, rsi_data]
+
+def io_investo_means_indicators(df):
+    ''' Questa è la funzione che calcola gli indicatori per il gradico di io investo sulle medie 
+    [0] - ema 20 low
+    [1] - ema 20 high
+    [2] - ema 144'''
+    ema20Low_data = df[ema20low].values.tolist() # [0]
+    ema20high_data = df[ema20high].values.tolist() # [1]
+    ema144_data = df[ema144].values.tolist() # [2]
+    return [ema20Low_data, ema20high_data, ema144_data]
 
 def trend_analysis(data):
     if (data[close].values > data[ema200].values):

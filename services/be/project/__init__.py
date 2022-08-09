@@ -62,27 +62,25 @@ def detail():
     symbol = args.get('symbol') # Simbolo da andare a prendere dal db
     strategy = args.get('strategy') # La strategia più essere vuota
     society = db.get_society_from_symbol(symbol) # Lo zero è perchè una tupla
-    print(society)
 
     df = db.get_stock(symbol)
 
-    func.add_default_indicators(df)
+    func.add_indicators(df)
     df = df.round(3) # La round() non è inplace
     xData = func.get_xData(df.tail(func.lastSample))
     yData = func.get_yData(df.tail(func.lastSample))
 
     if (strategy == ''):
-       # Qui si devono restituire i dati semplici
-       # print(func.get_xData(df))
        indicators = func.get_default_indicators(df.tail(func.lastSample))
-       data_fe = {
-            'society': society,
-            'xData': xData,
-            'yData': yData,
-            'indicators': indicators
-       }
-       return jsonify(data_fe)
-    else:
-        print('Cè una strategia')
+    elif (strategy == "1"):
+        indicators = func.rayner_teo_bollinger_indicators(df.tail(func.lastSample))
+    elif (strategy == "2"):
+        indicators = func.io_investo_means_indicators(df.tail(func.lastSample))
 
-    return args
+    data_fe = {
+        'society': society,
+        'xData': xData,
+        'yData': yData,
+        'indicators': indicators
+    }
+    return jsonify(data_fe)

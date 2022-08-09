@@ -102,28 +102,28 @@ export class ChartService {
     return option;
   }
 
-  getIoInvestoChartOption(symbol: SymbolToShow) {
-    let i; // first index of entry
-    for (i = 0; i <= symbol.ema144Series!.length; i++) {
-      if (
-        symbol.yAxisClose![i] > symbol.ema20High![i] &&
-        symbol.yAxisClose![i] > symbol.ema20Low![i] &&
-        symbol.yAxisClose![i] > symbol.ema144Series![i]
-      ) {
-        break;
-      }
-    }
+  getIoInvestoChartOption(symbol: DetailSymbol) {
+    // let i; // first index of entry
+    // for (i = 0; i <= symbol.ema144Series!.length; i++) {
+    //   if (
+    //     symbol.yAxisClose![i] > symbol.ema20High![i] &&
+    //     symbol.yAxisClose![i] > symbol.ema20Low![i] &&
+    //     symbol.yAxisClose![i] > symbol.ema144Series![i]
+    //   ) {
+    //     break;
+    //   }
+    // }
 
-    let y; // last index of exit
-    for (y = symbol.ema144Series!.length; y <= i; y--) {
-      if (symbol.yAxisClose![y] < symbol.ema20Low![y]) {
-        break;
-      }
-    }
+    // let y; // last index of exit
+    // for (y = symbol.ema144Series!.length; y <= i; y--) {
+    //   if (symbol.yAxisClose![y] < symbol.ema20Low![y]) {
+    //     break;
+    //   }
+    // }
 
     var option = {
       xAxis: {
-        data: symbol.xAxis,
+        data: symbol.xData,
       },
       yAxis: {
         scale: true,
@@ -135,38 +135,38 @@ export class ChartService {
         },
       },
       legend: {
-        data: [symbol.simbolo, 'EMA 20 Minimi', 'EMA 20 Massimi', 'EMA 144'],
+        data: [symbol.society, 'EMA 20 Minimi', 'EMA 20 Massimi', 'EMA 144'],
       },
       series: [
         {
-          name: symbol.simbolo,
+          name: symbol.society,
           type: 'candlestick',
           data: symbol.yData,
-          markPoint: {
-            data: [
-              {
-                name: 'Entry',
-                coord: [symbol.xAxis![i], symbol.yAxisClose![i]],
-                value: symbol.yAxisClose![i],
-                itemStyle: {
-                  color: '#177E89',
-                },
-              },
-              {
-                name: 'Exit',
-                coord: [symbol.xAxis![y], symbol.yAxisClose![y]],
-                value: symbol.yAxisClose![y],
-                itemStyle: {
-                  color: '#81171B',
-                },
-              },
-            ],
-          },
+          // markPoint: {
+          //   data: [
+          //     {
+          //       name: 'Entry',
+          //       coord: [symbol.xAxis![i], symbol.yAxisClose![i]],
+          //       value: symbol.yAxisClose![i],
+          //       itemStyle: {
+          //         color: '#177E89',
+          //       },
+          //     },
+          //     {
+          //       name: 'Exit',
+          //       coord: [symbol.xAxis![y], symbol.yAxisClose![y]],
+          //       value: symbol.yAxisClose![y],
+          //       itemStyle: {
+          //         color: '#81171B',
+          //       },
+          //     },
+          //   ],
+          // },
         },
         {
           name: 'EMA 20 Minimi',
           type: 'line',
-          data: symbol.ema20Low,
+          data: symbol.indicators[0], // ema 20 low
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -175,7 +175,7 @@ export class ChartService {
         {
           name: 'EMA 20 Massimi',
           type: 'line',
-          data: symbol.ema20High,
+          data: symbol.indicators[1], // ema 20 high
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -184,7 +184,7 @@ export class ChartService {
         {
           name: 'EMA 144',
           type: 'line',
-          data: symbol.ema144Series,
+          data: symbol.indicators[2], // ema 144 
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -195,7 +195,7 @@ export class ChartService {
     return option;
   }
 
-  getBollingerBandChartOption(symbol: SymbolToShow) {
+  getBollingerBandChartOption(symbol: DetailSymbol) {
     // TODO: aggiungere anche il qui il markpoint
     var option = {
       grid: [
@@ -213,14 +213,14 @@ export class ChartService {
       ],
       xAxis: [
         {
-          data: symbol.xAxis,
+          data: symbol.xData,
           boundaryGap: false,
           axisLine: { onZero: false },
           splitLine: { show: false },
           axisLabel: { show: false },
         },
         {
-          data: symbol.xAxis,
+          data: symbol.xData,
           gridIndex: 1,
           boundaryGap: false,
           axisLine: { onZero: false },
@@ -254,7 +254,7 @@ export class ChartService {
       },
       legend: {
         data: [
-          symbol.simbolo,
+          symbol.society,
           'EMA 200',
           'High Bollinger band',
           'Lower Bollinger band',
@@ -263,14 +263,14 @@ export class ChartService {
       },
       series: [
         {
-          name: symbol.simbolo,
+          name: symbol.society,
           type: 'candlestick',
           data: symbol.yData,
         },
         {
           name: 'EMA 200',
           type: 'line',
-          data: symbol.ema200Series,
+          data: symbol.indicators[0], // ema 200
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -279,7 +279,7 @@ export class ChartService {
         {
           name: 'High Bollinger band',
           type: 'line',
-          data: symbol.hbbSeries,
+          data: symbol.indicators[1], // hbb
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -288,7 +288,7 @@ export class ChartService {
         {
           name: 'Lower Bollinger band',
           type: 'line',
-          data: symbol.lbbSeries,
+          data: symbol.indicators[2], // lbb 
           smooth: true,
           lineStyle: {
             opacity: 0.5,
@@ -299,7 +299,7 @@ export class ChartService {
           type: 'line',
           xAxisIndex: 1,
           yAxisIndex: 1,
-          data: symbol.rsi,
+          data: symbol.indicators[3], // rsi
           smooth: true,
           lineStyle: {
             opacity: 0.5,
