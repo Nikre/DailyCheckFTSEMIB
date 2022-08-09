@@ -23,13 +23,13 @@ def build_stocks_db():
     # Prendo i ticker e il nome delle società
     logging.debug("Inizio download societa")
 
-    symbols = ['ISP.MI', 'RACE.MI']
-    societies = ['Intesa San Paoloo', 'Ferrarii']
+    # symbols = ['ISP.MI', 'RACE.MI']
+    # societies = ['Intesa San Paoloo', 'Ferrarii']
 
-    # symbols = pd.read_html(
-    #     'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
-    # societies = pd.read_html(
-    #     'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Società']
+    symbols = pd.read_html(
+        'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
+    societies = pd.read_html(
+        'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Società']
 
     logging.info("Download societies OK")
 
