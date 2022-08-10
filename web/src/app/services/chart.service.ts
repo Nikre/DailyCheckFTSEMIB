@@ -102,21 +102,21 @@ export class ChartService {
     return option;
   }
 
-  getIoInvestoChartOption(symbol: DetailSymbol) {
+  getIoInvestoMeansChartOption(symbol: DetailSymbol) {
     // let i; // first index of entry
-    // for (i = 0; i <= symbol.ema144Series!.length; i++) {
+    // for (i = 0; i <= symbol.indicators[0].length; i++) {
     //   if (
-    //     symbol.yAxisClose![i] > symbol.ema20High![i] &&
-    //     symbol.yAxisClose![i] > symbol.ema20Low![i] &&
-    //     symbol.yAxisClose![i] > symbol.ema144Series![i]
+    //     symbol.yData[i][0] > symbol.indicators[0][i] &&
+    //     symbol.yData[i][0] > symbol.indicators[1][i] &&
+    //     symbol.yData[i][0] > symbol.indicators[2][i]
     //   ) {
     //     break;
     //   }
     // }
 
     // let y; // last index of exit
-    // for (y = symbol.ema144Series!.length; y <= i; y--) {
-    //   if (symbol.yAxisClose![y] < symbol.ema20Low![y]) {
+    // for (y = symbol.indicators[0].length; y <= i; y--) {
+    //   if (symbol.yData[y][0] < symbol.indicators[0][y]) {
     //     break;
     //   }
     // }
@@ -143,24 +143,24 @@ export class ChartService {
           type: 'candlestick',
           data: symbol.yData,
           // markPoint: {
-          //   data: [
-          //     {
-          //       name: 'Entry',
-          //       coord: [symbol.xAxis![i], symbol.yAxisClose![i]],
-          //       value: symbol.yAxisClose![i],
-          //       itemStyle: {
-          //         color: '#177E89',
-          //       },
-          //     },
-          //     {
-          //       name: 'Exit',
-          //       coord: [symbol.xAxis![y], symbol.yAxisClose![y]],
-          //       value: symbol.yAxisClose![y],
-          //       itemStyle: {
-          //         color: '#81171B',
-          //       },
-          //     },
-          //   ],
+          //   // data: [
+          //   //   {
+          //   //     name: 'Entry',
+          //   //     coord: [symbol.xData[i], symbol.yData[i][0]],
+          //   //     value: symbol.yData[i][0],
+          //   //     itemStyle: {
+          //   //       color: '#177E89',
+          //   //     },
+          //   //   },
+          //     // {
+          //     //   name: 'Exit',
+          //     //   //coord: [symbol.xData[y], symbol.yData[y][0]],
+          //     //   value: symbol.yData[y][0],
+          //     //   itemStyle: {
+          //     //     color: '#81171B',
+          //     //   },
+          //     // },
+          //   // ],
           // },
         },
         {
@@ -185,6 +185,166 @@ export class ChartService {
           name: 'EMA 144',
           type: 'line',
           data: symbol.indicators[2], // ema 144 
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+      ],
+    };
+    return option;
+  }
+
+  getIoInvestoROCChartOption(symbol: DetailSymbol) {
+    var option = {
+      grid: [
+        {
+          left: '10%',
+          right: '10%',
+          bottom: 330,
+        },
+        {
+          left: '10%',
+          right: '10%',
+          height: 60,
+          bottom: 230,
+        },
+        {
+          left: '10%',
+          right: '10%',
+          height: 60,
+          bottom: 120,
+        },
+        {
+          left: '10%',
+          right: '10%',
+          height: 60,
+          bottom: 20,
+        },
+      ],
+      xAxis: [
+        {
+          data: symbol.xData,
+          boundaryGap: false,
+          axisLine: { onZero: false },
+          splitLine: { show: false },
+          axisLabel: { show: false },
+        },
+        {
+          data: symbol.xData,
+          gridIndex: 1,
+          boundaryGap: false,
+          axisLine: { onZero: true },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: true },
+        },
+        {
+          data: symbol.xData,
+          gridIndex: 2,
+          boundaryGap: false,
+          axisLine: { onZero: true },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: true },
+        },
+        {
+          data: symbol.xData,
+          gridIndex: 3,
+          boundaryGap: false,
+          axisLine: { onZero: true },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: true },
+        },
+      ],
+      yAxis: [
+        {
+          scale: true,
+          splitArea: {
+            show: true,
+          },
+        },
+        {
+          scale: true,
+          gridIndex: 1,
+          splitNumber: 2,
+          axisLabel: { show: true },
+          axisLine: { show: true },
+          axisTick: { show: true },
+          splitLine: { show: true },
+        },
+        {
+          scale: true,
+          gridIndex: 2,
+          splitNumber: 2,
+          axisLabel: { show: true },
+          axisLine: { show: true },
+          axisTick: { show: true },
+          splitLine: { show: true },
+        },
+        {
+          scale: true,
+          gridIndex: 3,
+          splitNumber: 2,
+          axisLabel: { show: true },
+          axisLine: { show: true },
+          axisTick: { show: true },
+          splitLine: { show: true },
+        }
+      ],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+        },
+      },
+      legend: {
+        data: [
+          symbol.society,
+          'EMA 200',
+          'ROC 20',
+          'ROC 50',
+          'ROC 100',
+        ],
+      },
+      series: [
+        {
+          name: symbol.society,
+          type: 'candlestick',
+          data: symbol.yData,
+        },
+        {
+          name: 'ROC 20',
+          type: 'line',
+          areaStyle: {},
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: symbol.indicators[0], // roc 20
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'ROC 50',
+          type: 'line',
+          areaStyle: {},
+          xAxisIndex: 2,
+          yAxisIndex: 2,
+          data: symbol.indicators[1], // roc 50
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'ROC 100',
+          type: 'line',
+          areaStyle: {},
+          xAxisIndex: 3,
+          yAxisIndex: 3,
+          data: symbol.indicators[2], // roc 100
           smooth: true,
           lineStyle: {
             opacity: 0.5,

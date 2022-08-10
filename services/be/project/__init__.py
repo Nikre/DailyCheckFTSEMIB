@@ -41,7 +41,7 @@ def dashboard():
         func.add_indicators(df)
         df = df.round(3) # La round() non è inplace
 
-        strategies = [func.check_entry_ioInvesto(df.tail(1)), func.check_entry_rayReno_bb(df.tail(1))]
+        strategies = [func.check_entry_rayReno_bb(df.tail(1)), func.check_entry_ioInvesto_means(df.tail(1)), func.check_entry_ioInvesto_roc(df.tail(2))]
         temp = {
             'society': df.tail(1)[func.society].values[0],
             'symbol': df.tail(1)[func.symbol].values[0],
@@ -76,6 +76,8 @@ def detail():
         indicators = func.rayner_teo_bollinger_indicators(df.tail(func.lastSample))
     elif (strategy == "2"):
         indicators = func.io_investo_means_indicators(df.tail(func.lastSample))
+    elif (strategy == "3"):
+        indicators = func.io_investo_roc_indicators(df.tail(func.lastSample))
 
     data_fe = {
         'society': society,

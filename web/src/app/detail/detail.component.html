@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
     <div class="container-fluid">
         <a class="navbar-brand" href="/dashboard">Multiday trading explorer</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -27,20 +27,24 @@
             <div class="col">
                 <select class="form-select" [(ngModel)]="selectedStrategy" (change)="onStrategySelected()">
                     <option selected [ngValue]="null"></option>
-                    <option [ngValue]="1">Bande di Bollinger</option>
-                    <option [ngValue]="2">IoInvesto</option>
+                    <option [ngValue]="1">Rayner Teo / Bande di Bollinger</option>
+                    <option [ngValue]="2">IoInvesto / Medie</option>
+                    <option [ngValue]="3">IoInvesto / ROC</option>
                 </select>
             </div>
-            <div class="col">
-                <!-- <button type="button" class="btn btn-outline-info" routerLink="/backtest" [queryParams]="{simbolo: symbol.simbolo, societa: symbol.societa}" style="width: 100%;"
-                    [disabled]="selectedStrategy == null">Backtesting</button> -->
-            </div>
+            <ng-container *ngIf="false">    
+                <div class="col">
+                    <button type="button" class="btn btn-outline-info" routerLink="/backtest" [queryParams]="{simbolo: selectedSymbol, societa: symbol.society}" style="width: 100%;"
+                    [disabled]="selectedStrategy == null">Backtesting</button>
+                </div>
+            </ng-container>
         </div>
     </div>
     <div class="description" [innerHTML]="selectedStrategyDesc"></div>
     <h3 class="text-center my-3">N.B: il tooltip presenta i valori di apertura e chiusura invertiti!</h3>
     <div class="mt-4" id="main" style="width: 100%;height:550px;"></div>
     <!-- TODO mettere la tabella accanto il grafico, per ridurre la lunghezza della pagina -->
+    <!-- TODO Ho tolto la tabella in fondo, non  mi piaceva più -->
     <!-- <table class="table my-4 table-striped table-detail">
         <caption class="table-detail">Dettagli ultima candela</caption>
         <tbody>

@@ -29,6 +29,9 @@ def build_stocks_db():
         'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
     societies = pd.read_html(
         'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Società']
+    
+    symbols = symbols.append(pd.Series(['REY.MI']), ignore_index=True)
+    societies = societies.append(pd.Series(['Reply S.p.A']), ignore_index=True)
 
     logging.info("Download societies OK")
 
@@ -74,7 +77,7 @@ def build_stocks_db():
 def get_stocks_symbols():
     con = sqlite3.connect('./app.db')
     cur = con.cursor()
-    res = cur.execute('SELECT DISTINCT symbol from stocks')
+    res = cur.execute('SELECT DISTINCT symbol from stocks ORDER by symbol ASC')
     con.commit()
     return res
 

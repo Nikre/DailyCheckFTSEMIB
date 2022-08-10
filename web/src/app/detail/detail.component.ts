@@ -57,13 +57,22 @@ export class DetailComponent implements OnInit {
           è rimasta aperta per <b>10 giorni</b>.`;
           break;
         case 2:
-          myChart.setOption(this.chartService.getIoInvestoChartOption(this.symbol), true);
+          myChart.setOption(this.chartService.getIoInvestoMeansChartOption(this.symbol), true);
           this.selectedStrategyDesc = `<b>Apertura posizione long:</b> per aprire una posizione, 
           il prezzo di chiusura deve essere maggiore della <b>media esponenziale a 144 periodi</b>, 
           della <b>media esponenziale</b> calcolata su <b> 20 periodi dei massimi</b> e dei <b>minimi</b>.
           <br><br>
           <b>Chiusura posizione long</b>: la posizione viene chiusa non appena il prezzo di chiusura a
           è <b>minore</b> della <b>EMA dei minimi dei 20 periodi</b>.`;
+          break;
+        case 3:
+          myChart.setOption(this.chartService.getIoInvestoROCChartOption(this.symbol), true);
+          this.selectedStrategyDesc= `<b>Apertura posizione long:</b> per l'apertura di una posizione il ROC medio e lungo
+          devono <b>essere positivi</b>, inoltre l'acquisto scatta quando il ROC veloce su 20 periodi <b>passa da negativo 
+          a positivo</b>.
+          <br><br>
+          <b>Chiusura posizione long</b>: la posizione viene chiusa quando il ROC veloce presenta un <b>incrocio ribassista 
+          sul valore -5</b>.`
           break;
         default:
           myChart.setOption(
