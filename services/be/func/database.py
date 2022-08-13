@@ -77,7 +77,7 @@ def build_stocks_db():
 def get_stocks_symbols():
     con = sqlite3.connect('./app.db')
     cur = con.cursor()
-    res = cur.execute('SELECT DISTINCT symbol from stocks ORDER by symbol ASC')
+    res = cur.execute('SELECT DISTINCT symbol from stocks ORDER by society ASC')
     con.commit()
     return res
 
