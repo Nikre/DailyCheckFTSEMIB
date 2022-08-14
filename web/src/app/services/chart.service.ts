@@ -419,8 +419,111 @@ export class ChartService {
     return option;
   }
 
+  getIoInvestoCCIChartOption(symbol: DetailSymbol){
+    var option = {
+      grid: [
+        {
+          left: '10%',
+          right: '10%',
+          bottom: 200,
+        },
+        {
+          left: '10%',
+          right: '10%',
+          height: 80,
+          bottom: 80,
+        },
+      ],
+      xAxis: [
+        {
+          data: symbol.xData,
+          boundaryGap: false,
+          axisLine: { onZero: false },
+          splitLine: { show: false },
+          axisLabel: { show: false },
+        },
+        {
+          data: symbol.xData,
+          gridIndex: 1,
+          boundaryGap: false,
+          axisLine: { onZero: false },
+          axisTick: { show: false },
+          splitLine: { show: false },
+          axisLabel: { show: true },
+        },
+      ],
+      yAxis: [
+        {
+          scale: true,
+          splitArea: {
+            show: true,
+          },
+        },
+        {
+          scale: true,
+          gridIndex: 1,
+          splitNumber: 2,
+          axisLabel: { show: true },
+          axisLine: { show: true },
+          axisTick: { show: true },
+          splitLine: { show: true },
+        },
+      ],
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+        },
+      },
+      legend: {
+        data: [
+          symbol.society,
+          'EMA 18',
+          'EMA 36',
+          'CCI',
+        ],
+      },
+      series: [
+        {
+          name: symbol.society,
+          type: 'candlestick',
+          data: symbol.yData,
+        },
+        {
+          name: 'EMA 18',
+          type: 'line',
+          data: symbol.indicators[0], // ema 18
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'EMA 36',
+          type: 'line',
+          data: symbol.indicators[1], // ema 36
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'CCI',
+          type: 'line',
+          xAxisIndex: 1,
+          yAxisIndex: 1,
+          data: symbol.indicators[2], // cci
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+      ],
+    };
+    return option;
+  }
+
   getBollingerBandChartOption(symbol: DetailSymbol) {
-    // TODO: aggiungere anche il qui il markpoint
     var option = {
       grid: [
         {

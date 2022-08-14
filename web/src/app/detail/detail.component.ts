@@ -83,6 +83,10 @@ export class DetailComponent implements OnInit {
           <b>Chiusura posizione long</b>: la condizine di uscita da una posizione long si verifica quando si ha un incrocio ribassista 
           delle medie.`
           break;
+        case 5:
+          myChart.setOption(this.chartService.getIoInvestoCCIChartOption(this.symbol), true);
+          this.selectedStrategyDesc = `<b>Apertura posizione long:</b>`
+          break;
         default:
           myChart.setOption(
             this.chartService.getDefaultChartOption(this.symbol),

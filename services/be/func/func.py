@@ -16,6 +16,8 @@ ema10 = 'ema10'
 ema20 = 'ema20'
 ema20high = 'ema20high'
 ema20low = 'ema20low'
+ema18 = 'ema18'
+ema36 = 'ema36'
 ema50 = 'ema50'
 ema144 = 'ema144'
 ema200 = 'ema200'
@@ -27,6 +29,7 @@ rsi = 'rsi2'
 roc20 = 'roc20'
 roc50 = 'roc50'
 roc100 = 'roc100'
+cci = 'cci'
 signal = 'signal'
 lastSample = 30
 
@@ -37,20 +40,19 @@ def add_indicators(df):
     df[ema20low] = ta.trend.EMAIndicator(df[low], window=20).ema_indicator()
     df[ema144] = ta.trend.EMAIndicator(df[close], window=144).ema_indicator()
     df[ema200] = ta.trend.EMAIndicator(df[close], window=200).ema_indicator()
-    df[hbb] = ta.volatility.BollingerBands(
-        df[close], window_dev=2.5).bollinger_hband()
-    df[lbb] = ta.volatility.BollingerBands(
-        df[close], window_dev=2.5).bollinger_lband()
+    df[ema18] = ta.trend.EMAIndicator(df[close], window=18).ema_indicator()
+    df[ema36] = ta.trend.EMAIndicator(df[close], window=36).ema_indicator()
+    df[hbb] = ta.volatility.BollingerBands(df[close], window_dev=2.5).bollinger_hband()
+    df[lbb] = ta.volatility.BollingerBands(df[close], window_dev=2.5).bollinger_lband()
     df[rsi] = ta.momentum.RSIIndicator(df[close], window=2).rsi()
     df[roc20] = ta.momentum.ROCIndicator(df[close], window=20).roc()
     df[roc50] = ta.momentum.ROCIndicator(df[close], window=50).roc()
     df[roc100] = ta.momentum.ROCIndicator(df[close], window=100).roc()
     df[sma5] = ta.trend.SMAIndicator(df[close], window=5).sma_indicator()
     df[sma20] = ta.trend.SMAIndicator(df[close], window=20).sma_indicator()
-    df[hdc] = ta.volatility.DonchianChannel(
-        df[high], df[low], df[close], window=10).donchian_channel_hband()
-    df[ldc] = ta.volatility.DonchianChannel(
-        df[high], df[low], df[close], window=10).donchian_channel_lband()
+    df[hdc] = ta.volatility.DonchianChannel(df[high], df[low], df[close], window=10).donchian_channel_hband()
+    df[ldc] = ta.volatility.DonchianChannel(df[high], df[low], df[close], window=10).donchian_channel_lband()
+    df[cci] = ta.trend.CCIIndicator(df[high], df[low], df[close], window=15).cci()
     df[signal] = -1  # Column used in backtesting
 
 
@@ -130,6 +132,15 @@ def io_investo_donchian_indicators(df):
     ldc_data = df[ldc].values.tolist()  # [3]
     return [sma5_data, sma20_data, hdc_data, ldc_data]
 
+def io_investo_cci_indicators(df):
+    ''' Questa è la funzione che calcola gli indicarori per il grafico di io investo usando l'indicarore CCI:
+    [0] - EMA 18
+    [1] - SMA 36
+    [2] - CCI'''
+    ema18_data = df[ema18].values.tolist()  # [0]
+    ema36_data = df[ema36].values.tolist()  # [1]
+    cci_data = df[cci].values.tolist()  # [2]
+    return [ema18_data, ema36_data, cci_data]
 
 def trend_analysis(data):
     if (data[close].values > data[ema200].values):
@@ -171,6 +182,12 @@ def check_entry_ioInvesto_Donchian(data):
         return 'IoInvesto/Donchian'
     return None
 
+def check_entry_ioInvesto_CCI(data):
+    previous_data = data.head(1)
+    last_data = data.tail(1)
+    if (up_cross_indicators(previous_data, last_data, ema18, ema36) & (last_data[cci].values > -100)):
+        return 'IoInvesto/CCI'
+    return None
 
 def up_cross_indicators(previous, actual, fast_indicator, slow_indicator):
     if((previous[fast_indicator].values[0] < previous[slow_indicator].values[0]) and (actual[fast_indicator].values[0] >= actual[slow_indicator].values[0])):
