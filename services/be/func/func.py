@@ -1,14 +1,17 @@
+from curses import window
 import pandas as pd
 from datetime import datetime
 import ta
 
 # Indicators
-open_label = 'open' # open è una parola chiave
-close = 'close' 
+open_label = 'open'  # open è una parola chiave
+close = 'close'
 high = 'high'
 society = 'society'
 symbol = 'symbol'
 low = 'low'
+sma5 = 'sma5'
+sma20 = 'sma20'
 ema10 = 'ema10'
 ema20 = 'ema20'
 ema20high = 'ema20high'
@@ -18,10 +21,12 @@ ema144 = 'ema144'
 ema200 = 'ema200'
 hbb = 'hbb2_5std'
 lbb = 'lbb2_5std'
+hdc = 'hdc'  # High donchian channel
+ldc = 'ldc'  # Lower donchian channel
 rsi = 'rsi2'
-roc20 = 'roc20' 
-roc50 = 'roc50' 
-roc100 = 'roc100' 
+roc20 = 'roc20'
+roc50 = 'roc50'
+roc100 = 'roc100'
 signal = 'signal'
 lastSample = 30
 
@@ -40,6 +45,12 @@ def add_indicators(df):
     df[roc20] = ta.momentum.ROCIndicator(df[close], window=20).roc()
     df[roc50] = ta.momentum.ROCIndicator(df[close], window=50).roc()
     df[roc100] = ta.momentum.ROCIndicator(df[close], window=100).roc()
+    df[sma5] = ta.trend.SMAIndicator(df[close], window=5).sma_indicator()
+    df[sma20] = ta.trend.SMAIndicator(df[close], window=20).sma_indicator()
+    df[hdc] = ta.volatility.DonchianChannel(
+        df[high], df[low], df[close], window=10).donchian_channel_hband()
+    df[ldc] = ta.volatility.DonchianChannel(
+        df[high], df[low], df[close], window=10).donchian_channel_lband()
     df[signal] = -1  # Column used in backtesting
 
 
@@ -47,9 +58,11 @@ def get_xData(df):
     ''' Questo metodo permette di costruire un array di stringhe che rappresentano la data. 
     Da db mi arrivano già date, ma voglio essere proprio sicuro di fare la conversione in maniera consona'''
     string_dates = df['date'].tolist()
-    date_dates = map(lambda x: datetime.strptime(x, '%Y-%m-%d %H:%M:%S'), string_dates) 
+    date_dates = map(lambda x: datetime.strptime(
+        x, '%Y-%m-%d %H:%M:%S'), string_dates)
     correct_dates = list(map(lambda x: x.strftime("%d/%m/%Y"), date_dates))
     return correct_dates
+
 
 def get_yData(df):
     ''' Funzione che calcola restituisce le candele per un grafico a candele '''
@@ -58,13 +71,16 @@ def get_yData(df):
     open_data = df[open_label].values.tolist()
     close_data = df[close].values.tolist()
 
-    candles = [list(x) for x in zip(close_data, open_data, low_data, high_data)]
+    candles = [list(x)
+               for x in zip(close_data, open_data, low_data, high_data)]
     return candles
+
 
 def get_default_indicators(df):
     ''' Questa è la funzione che calcola gli indicatori da mettere nel grafico di default '''
     ema200_data = df[ema200].values.tolist()
     return [ema200_data]
+
 
 def rayner_teo_bollinger_indicators(df):
     ''' Questa è la funzione che calcola gli indicatori per il grafico di rayner teo sulle bollinger bands 
@@ -72,44 +88,64 @@ def rayner_teo_bollinger_indicators(df):
     [1] - hbb
     [2] - lbb
     [3] - rsi s'''
-    ema200_data = df[ema200].values.tolist() # [0]
-    hbb_data = df[hbb].values.tolist() # [1]
-    lbb_data = df[lbb].values.tolist() # [2]
-    rsi_data = df[rsi].values.tolist() # [3]
+    ema200_data = df[ema200].values.tolist()  # [0]
+    hbb_data = df[hbb].values.tolist()  # [1]
+    lbb_data = df[lbb].values.tolist()  # [2]
+    rsi_data = df[rsi].values.tolist()  # [3]
     return [ema200_data, hbb_data, lbb_data, rsi_data]
+
 
 def io_investo_means_indicators(df):
     ''' Questa è la funzione che calcola gli indicatori per il grafico di io investo sulle medie 
     [0] - ema 20 low
     [1] - ema 20 high
     [2] - ema 144 '''
-    ema20Low_data = df[ema20low].values.tolist() # [0]
-    ema20high_data = df[ema20high].values.tolist() # [1]
-    ema144_data = df[ema144].values.tolist() # [2]
+    ema20Low_data = df[ema20low].values.tolist()  # [0]
+    ema20high_data = df[ema20high].values.tolist()  # [1]
+    ema144_data = df[ema144].values.tolist()  # [2]
     return [ema20Low_data, ema20high_data, ema144_data]
+
 
 def io_investo_roc_indicators(df):
     ''' Questa è la funzione che calcola gli inficatori per il grafico di io investo sulle ROC
     [0] - ROC 20
     [1] - ROC 50
     [2] - ROC 100 '''
-    roc20_data = df[roc20].values.tolist() # [0]
-    roc50_data = df[roc50].values.tolist() # [1]
-    roc100_data = df[roc100].values.tolist() # [2]
+    roc20_data = df[roc20].values.tolist()  # [0]
+    roc50_data = df[roc50].values.tolist()  # [1]
+    roc100_data = df[roc100].values.tolist()  # [2]
     return [roc20_data, roc50_data, roc100_data]
+
+
+def io_investo_donchian_indicators(df):
+    ''' Questa è la funzione che calcola gli indicarori per il grafico di io investo usando i canali di 
+    donchian:
+    [0] - SMA 5
+    [1] - SMA 20
+    [2] - Upper Donchian
+    [3] - Lower Donchian '''
+    sma5_data = df[sma5].values.tolist()  # [0]
+    sma20_data = df[sma20].values.tolist()  # [1]
+    hdc_data = df[hdc].values.tolist()  # [2]
+    ldc_data = df[ldc].values.tolist()  # [3]
+    return [sma5_data, sma20_data, hdc_data, ldc_data]
+
 
 def trend_analysis(data):
     if (data[close].values > data[ema200].values):
         return True
     return False
 
+
 def percentage_calculator(first, last) -> int:
-    return ((last - first) / first) * 100 
+    return ((last - first) / first) * 100
+
 
 def check_entry_rayReno_bb(data):
     if (data[close].values < data[lbb].values) & (data[close].values > data[ema200].values):
         return 'RaynerTeo/Bollinger'
     return None
+
 
 def check_entry_ioInvesto_means(data):
     if ((data[close].values > data[ema20high].values) &
@@ -118,18 +154,36 @@ def check_entry_ioInvesto_means(data):
         return 'IoInvesto/Medie'
     return None
 
+
 def check_entry_ioInvesto_roc(data):
-    previous_data = data.head(1) 
+    previous_data = data.head(1)
     last_data = data.tail(1)
-    if ((last_data[roc50].values >= 0) & (last_data[roc100].values >= 0) & up_cross_value(previous_data[roc20].values, last_data[roc20].values, 0)):
+    if ((last_data[roc50].values > 0) & (last_data[roc100].values > 0) & up_cross_value(previous_data[roc20].values, last_data[roc20].values, 0)):
         return 'IoInvesto/ROC'
     return None
+
+
+def check_entry_ioInvesto_Donchian(data):
+    previous_data = data.head(1)
+    last_data = data.tail(1)
+    # TODO Da capire bene questa strategia, è stato messo un or al posto dell'and 
+    if (up_cross_indicators(previous_data, last_data, sma5, sma20) | (last_data[close].values > last_data[hdc].values)):
+        return 'IoInvesto/Donchian'
+    return None
+
+
+def up_cross_indicators(previous, actual, fast_indicator, slow_indicator):
+    if((previous[fast_indicator].values[0] < previous[slow_indicator].values[0]) and (actual[fast_indicator].values[0] >= actual[slow_indicator].values[0])):
+        return True
+    return False
+
 
 def up_cross_value(previous, actual, value):
     ''' Questa funzione calcola se c'è stato un incrocio al rialzo di un determinato valore '''
     if (previous < value & value <= actual):
         return True
     return False
+
 
 def check_exit_rayReno_bb(symbol, data):
     if (data[rsi].values > 50):

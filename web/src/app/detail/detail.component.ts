@@ -74,6 +74,15 @@ export class DetailComponent implements OnInit {
           <b>Chiusura posizione long</b>: la posizione viene chiusa quando il ROC veloce presenta un <b>incrocio ribassista 
           sul valore -5</b>.`
           break;
+        case 4:
+          myChart.setOption(this.chartService.getIoInvestoDonchianChartOption(this.symbol), true);
+          this.selectedStrategyDesc = `<b>Apertura posizione long:</b> deve avvenire l\'incrocio rialzista sulle medie, ovvero la 
+          media mobile a 5 periodi deve incrociare al rialzo la media mobile a 20 periodi, e inoltre la chiusura del prezzo deve essere
+          maggiore della banda di Donchian. 
+          <br><br>
+          <b>Chiusura posizione long</b>: la condizine di uscita da una posizione long si verifica quando si ha un incrocio ribassista 
+          delle medie.`
+          break;
         default:
           myChart.setOption(
             this.chartService.getDefaultChartOption(this.symbol),

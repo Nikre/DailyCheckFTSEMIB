@@ -355,6 +355,70 @@ export class ChartService {
     return option;
   }
 
+  getIoInvestoDonchianChartOption(symbol: DetailSymbol) {
+    var option = {
+      xAxis: {
+        data: symbol.xData,
+      },
+      yAxis: {
+        scale: true,
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+        },
+      },
+      legend: {
+        data: [symbol.society, 'SMA 5', 'SMA 20', 'Donchian Upper Band', 'Donchian Lower Band'],
+      },
+      series: [
+        {
+          name: symbol.society,
+          type: 'candlestick',
+          data: symbol.yData
+        },
+        {
+          name: 'SMA 5',
+          type: 'line',
+          data: symbol.indicators[0], // sma 5
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'SMA 20',
+          type: 'line',
+          data: symbol.indicators[1], // sma 20
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'Donchian Upper Band',
+          type: 'line',
+          data: symbol.indicators[2], // Donchian Upper Band 
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+        {
+          name: 'Donchian Lower Band',
+          type: 'line',
+          data: symbol.indicators[3], // Donchian Lower Band 
+          smooth: true,
+          lineStyle: {
+            opacity: 0.5,
+          },
+        },
+      ],
+    };
+    return option;
+  }
+
   getBollingerBandChartOption(symbol: DetailSymbol) {
     // TODO: aggiungere anche il qui il markpoint
     var option = {
