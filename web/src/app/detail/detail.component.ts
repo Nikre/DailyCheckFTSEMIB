@@ -76,7 +76,7 @@ export class DetailComponent implements OnInit {
           break;
         case 4:
           myChart.setOption(this.chartService.getIoInvestoDonchianChartOption(this.symbol), true);
-          this.selectedStrategyDesc = `<b>Apertura posizione long:</b> deve avvenire l\'incrocio rialzista sulle medie, ovvero la 
+          this.selectedStrategyDesc = `<b>Apertura posizione long:</b> deve avvenire l\'incrocio rialzista delle medie, ovvero la 
           media mobile a 5 periodi deve incrociare al rialzo la media mobile a 20 periodi, e inoltre la chiusura del prezzo deve essere
           maggiore della banda di Donchian. 
           <br><br>
@@ -85,7 +85,10 @@ export class DetailComponent implements OnInit {
           break;
         case 5:
           myChart.setOption(this.chartService.getIoInvestoCCIChartOption(this.symbol), true);
-          this.selectedStrategyDesc = `<b>Apertura posizione long:</b>`
+          this.selectedStrategyDesc = `<b>Apertura posizione long:</b> deve avvenire l\'incrocio rialzista delle, e il CCI (Commodity Channel Index) 
+          deve essere maggiore di -100.
+          <br><br>
+          <b>Chiusura posizione long</b>: la condizione di chiusura di una posizione long, è l\'incrocio ribassista delle medie.`
           break;
         default:
           myChart.setOption(
