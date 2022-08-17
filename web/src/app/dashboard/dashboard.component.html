@@ -27,6 +27,12 @@
 </div>
     
 <div *ngIf="!isLoading" class="container">
+    <div style="float: right">
+        <div class="form-check form-switch">
+            <input class="form-check-input" [ngModel]="mustFilter" type="checkbox" id="flexSwitchCheckDefault" (click)="filtering()">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Filtra per strategie</label>
+        </div>
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
