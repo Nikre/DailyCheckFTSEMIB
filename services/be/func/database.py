@@ -25,6 +25,7 @@ def build_stocks_db():
     # symbols = ['ISP.MI', 'RACE.MI']
     # societies = ['Intesa San Paoloo', 'Ferrarii']
 
+    # FTSE MIB
     symbols = pd.read_html(
         'https://it.wikipedia.org/wiki/FTSE_MIB')[4]['Codice alfanumerico']
     societies = pd.read_html(
@@ -46,6 +47,7 @@ def build_stocks_db():
             date DATE,
             symbol NVARCHAR(10),
             society NVARCHAR(255),
+            market NVARCHAR(10),
             open FLOAT,
             high FLOAT,
             low FLOAT,
@@ -58,12 +60,30 @@ def build_stocks_db():
         logging.debug(e)
         logging.info("Tabella gia presente")
 
-    # Itero
+    # Itero ftse mib
     for symbol, society in zip(symbols, societies):
         logging.info(f"Scarico: {society}")
         df = yf.download(symbol, interval='1d', start='2010-01-01')
         df['Symbol'] = symbol
         df['Society'] = society
+        df['Market'] = 'ftse_mib'
+        df.drop(['Adj Close', 'Volume'], axis=1, inplace=True)
+
+        logging.debug("Add in the db...")
+        df.to_sql('stocks', con, if_exists='append')
+
+    # Down Jones
+    dow = pd.read_html('https://en.wikipedia.org/wiki/Dow_Jones_Industrial_Average')[1]
+    symbols = dow['Symbol']
+    societies = dow['Company']
+
+    # Itero down jones
+    for symbol, society in zip(symbols, societies):
+        logging.info(f"Scarico: {society}")
+        df = yf.download(symbol, interval='1d', start='2010-01-01')
+        df['Symbol'] = symbol
+        df['Society'] = society
+        df['Market'] = 'down_jones'
         df.drop(['Adj Close', 'Volume'], axis=1, inplace=True)
 
         logging.debug("Add in the db...")
