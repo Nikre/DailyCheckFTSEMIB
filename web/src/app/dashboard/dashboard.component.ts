@@ -12,11 +12,13 @@ export class DashboardComponent implements OnInit {
   searchedSymbol: string = '';
   isLoading: boolean = true;
   mustFilter: boolean = false;
+  market: string = 'ftse_mib'
 
   constructor(private symbolService: SymbolService) {}
 
   ngOnInit(): void {
-    this.symbolService.getSymbols().subscribe((res) => {
+    
+    this.symbolService.getSymbols(this.market).subscribe((res) => {
       this.symbols = res;
       this.isLoading = false;
     });
@@ -24,7 +26,7 @@ export class DashboardComponent implements OnInit {
 
   searching() {
     this.isLoading = true;
-    this.symbolService.getSymbols().subscribe((res) => {
+    this.symbolService.getSymbols(this.market).subscribe((res) => {
       this.symbols = res.filter((x) =>
         x.society.toLowerCase().includes(this.searchedSymbol.toLowerCase())
       );
@@ -34,19 +36,27 @@ export class DashboardComponent implements OnInit {
 
   filtering() {
     this.isLoading = true;
-    console.log(this.mustFilter);
     this.mustFilter = !this.mustFilter;
     if (this.mustFilter) {
       console.log('Sto filtrando');
-      this.symbolService.getSymbols().subscribe((res) => {
+      this.symbolService.getSymbols(this.market).subscribe((res) => {
         this.symbols = res.filter((x) => x.strategies != '');
         this.isLoading = false;
       });
     } else {
-      this.symbolService.getSymbols().subscribe((res) => {
+      this.symbolService.getSymbols(this.market).subscribe((res) => {
         this.symbols = res;
         this.isLoading = false;
       });
     }
+  }
+
+  onMarketChanged(market: string) {
+    this.market = market
+    this.isLoading = true
+    this.symbolService.getSymbols(this.market).subscribe((res) => {
+      this.symbols = res;
+      this.isLoading = false;
+    });
   }
 }

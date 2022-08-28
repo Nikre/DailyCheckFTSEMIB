@@ -13,8 +13,11 @@ import { DetailSymbol } from '../models/detail-symbol';
 export class SymbolService {
   constructor(private http: HttpClient) {}
 
-  getSymbols() {
-    return this.http.get<DashboardSymbol[]>('http://127.0.0.1:5000/dashboard');
+  getSymbols(market: string) {
+    console.log(market)
+    var params: HttpParams = new HttpParams()
+      .set('market', market)
+    return this.http.get<DashboardSymbol[]>('http://127.0.0.1:5000/dashboard', {params: params});
   }
 
   getSymbolDetail(symbol: string, strategy?: number) {

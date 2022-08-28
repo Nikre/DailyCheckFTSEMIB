@@ -33,7 +33,9 @@ def flask():
 
 @app.route("/dashboard", methods=["GET"])
 def dashboard():
-    symbols = db.get_stocks_symbols()
+    args = request.args.to_dict()
+    market = args.get('market')
+    symbols = db.get_stocks_symbols_from_market(market)
     data_fe = []
     strategies = []
     for symbol in symbols:

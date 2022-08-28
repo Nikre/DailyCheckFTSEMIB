@@ -77,6 +77,9 @@ def build_stocks_db():
     symbols = dow['Symbol']
     societies = dow['Company']
 
+    # symbols = ['MMM', 'AXP']
+    # societies = ['3M', 'American EXpress']
+
     # Itero down jones
     for symbol, society in zip(symbols, societies):
         logging.info(f"Scarico: {society}")
@@ -94,10 +97,10 @@ def build_stocks_db():
     logging.info("Tabella correttamente popolata")
 
 
-def get_stocks_symbols():
+def get_stocks_symbols_from_market(market):
     con = sqlite3.connect('./app.db')
     cur = con.cursor()
-    res = cur.execute('SELECT DISTINCT symbol from stocks ORDER by society ASC')
+    res = cur.execute(f"SELECT DISTINCT symbol from stocks where market = '{market}' ORDER by society ASC")
     con.commit()
     return res
 

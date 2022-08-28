@@ -26,9 +26,17 @@
     </div>
 </div>
     
-<div *ngIf="!isLoading" class="container">
-    <div style="float: right">
-        <div class="form-check form-switch">
+<div *ngIf="!isLoading" class="container">     
+    <div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" [ngModel]="market" type="radio" value="ftse_mib" (click)="onMarketChanged('ftse_mib')" checked>
+            <label class="form-check-label" for="inlineRadio1">FTSE MIB</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" [ngModel]="market" type="radio" value="down_jones" (click)="onMarketChanged('down_jones')">
+            <label class="form-check-label" for="inlineRadio2">Down Jones</label>
+          </div> 
+        <div class="form-check form-switch form-check-inline">
             <input class="form-check-input" [ngModel]="mustFilter" type="checkbox" id="flexSwitchCheckDefault" (click)="filtering()">
             <label class="form-check-label" for="flexSwitchCheckDefault">Filtra per strategie</label>
         </div>
@@ -48,8 +56,8 @@
             <tr routerLink="/detail" [queryParams]="{simbolo: symbol.symbol}" routerLinkActive="active"
                 [ngClass]="{'buyable-background': symbol.strategies != ''}" *ngFor="let symbol of symbols">
                 <th>{{ symbol.society }}</th>
-                <td class="text-center">{{ symbol.open | number : '1.2-2'}}€</td>
-                <td class="text-center">{{ symbol.close | number : '1.2-2' }}€</td>
+                <td class="text-center">{{ symbol.open | number : '1.2-2'}}{{ market == 'ftse_mib' ? '€' : '$' }}</td>
+                <td class="text-center">{{ symbol.close | number : '1.2-2' }}{{ market == 'ftse_mib' ? '€' : '$' }}</td>
                 <td class="text-center" [ngClass]="{'negative-variation': !symbol.trend, 
                 'positive-variation': symbol.trend}">{{ symbol.trend ? "Uptrend": "Downtrend"}}</td>
                 <td class="text-center" [ngClass]="{'negative-variation': symbol.variation < 0, 
